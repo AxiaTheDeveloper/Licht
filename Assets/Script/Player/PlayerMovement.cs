@@ -59,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         colliderSize = capsuleCollider.size;
 
+        moveCamera = GameObject.Find("CM vcam1").GetComponent<MoveCamera>();
+
         wasOnJump = true;
         isJumping = false;
         isOnGround = false;
@@ -131,7 +133,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (isJumping && playerRb.velocity.y < 0) isJumping = false;
         
-        CollissionCheck();
         //OnJumpInput
         if (GetVerticalInput() && lastPressedJumpTime > 0)
         {
