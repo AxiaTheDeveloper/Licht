@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("== References Object ==")]
     private Rigidbody2D playerRb;
+    private CapsuleCollider2D capsuleCollider;
+    private MoveCamera moveCamera;
 
 
     [Header("== Variables ==")]
@@ -49,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
         float x = GetHorizontalInput();
         dir = new Vector2(x, 0);
         PlayerJump();
+        CheckEdgeCamera();
     }
 
     void FixedUpdate()
@@ -82,12 +85,17 @@ public class PlayerMovement : MonoBehaviour
         LayerMask groundLayer = LayerMask.GetMask("Ground");
         lastOnGroundTime -= Time.deltaTime;
         lastPressedJumpTime -= Time.deltaTime;
-        
+
+
 
         if (isJumpCut)
         {
             SetGravityScale(defaultGravScale * gravScaleMultOnJumpCut);
             playerRb.velocity = new Vector2(playerRb.velocity.x, Mathf.Max(playerRb.velocity.y, -maxFallSpeed));
+        }
+        else if (playerRb.velocity.y <= 0)
+        {
+            SetGravityScale(defaultGravScale * gravScaleMultOnJumpCut);
         }
         else SetGravityScale(defaultGravScale);
 
@@ -160,6 +168,21 @@ public class PlayerMovement : MonoBehaviour
         {
 
         }
+    }
+    private void CheckEdgeCamera()
+    {
+        
+        Vector2 pos = Camera.main.WorldToViewportPoint(transform.position);
+
+        if (pos.x > 1.02f)
+            moveCamera.Right();
+        if (pos.x < -0.02f)
+            moveCamera.Left();
+        if (pos.y > 1.02f)
+            moveCamera.Up();
+        if (pos.y < -0.02f)
+            moveCamera.Down();
+
     }
     #endregion
 }
