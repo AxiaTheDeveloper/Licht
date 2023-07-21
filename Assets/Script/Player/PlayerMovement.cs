@@ -155,6 +155,9 @@ public class PlayerMovement : MonoBehaviour
                 lastOnGroundTime = coyoteTime;
                 isOnGround = true;
             }
+            else{
+                isOnGround = false;
+            }
         }
         
 
@@ -180,7 +183,7 @@ public class PlayerMovement : MonoBehaviour
 
             isJumping = true;
             isJumpCut = false;
-            isOnGround = false;
+            
             wasOnJump = true;
             
         }

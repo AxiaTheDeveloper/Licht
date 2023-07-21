@@ -37,6 +37,8 @@ public class InteractObject : MonoBehaviour
 
     
     private void Awake() {
+        popUp = gameObject.transform.GetChild(0).gameObject;
+        
         isInRange = false;
         if(interactType == InteractType.lightCollider){
             compareTagCollider = "ColliderLampu";
