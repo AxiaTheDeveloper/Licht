@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - ColliderKecil
+  - ColliderLampu
   layers:
   - Default
   - TransparentFX
@@ -52,4 +54,7 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 33718471
+    locked: 0
+  - name: PopUp
+    uniqueID: 379368899
     locked: 0

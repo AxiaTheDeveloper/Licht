@@ -5,40 +5,154 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerLight : MonoBehaviour
 {
+    
+    public enum Environment{
+        normal, windy
+    }
+    [Header("Environment Mode")]
+    [SerializeField]private Environment enviNow;
+
+
+    [Header("Light")]
     [SerializeField] private Light2D lightFire;
     [SerializeField] private float lightFireStartSize;
     private float lightFireSize;
-    [SerializeField] private float lightFireMinus;
+    private float dyingTime_Idle, dyingTime_Move;
+
+    [Header("DyingTime - Normal")]
+    [SerializeField] private float dyingTime_IdleNormal;
+    [SerializeField] private float dyingTime_MoveNormal;
+
+    [Header("DyingTime - Windy")]
+    [SerializeField] private float dyingTime_IdleWindy;
+    [SerializeField] private float dyingTime_MoveWindy;
+
+    [Header("Light Collider")]
+    [SerializeField] private CircleCollider2D colliderLight;
+
+    //bikin kek public enum gitu buat cek lg apa ada di daerah apa etc biar dying time ya berubah gitu
 
     private Transform playerPosNow;
     private Vector3 playerPositionLast;
-    
+
+    private TheGameManager gameManager;
+    private PlayerMovement playerMovement;
+
     private void Awake() {
+        playerMovement = GetComponent<PlayerMovement>();
         playerPosNow = GetComponent<Transform>();
         playerPositionLast = playerPosNow.position;
     }
 
     private void Start() {
+        gameManager = TheGameManager.Instance;
+    
         lightFireSize = lightFireStartSize;
-        changeFireSize();
-        //gamemanager
-        
+        changeFireSizeRadius();
+        changeLightColliderSize();
+
+        ChangeEnvironmentMode(Environment.normal);
     }
 
-    private void changeFireSize(){
+    
+    public void changeFireSize(float change){
+        lightFireSize += change;
+        // Debug.Log(lightFireSize);
+        changeFireSizeRadius();
+        changeLightColliderSize();
+    }
+    private void changeFireSizeRadius(){
         lightFire.pointLightOuterRadius = lightFireSize;
+    }
+    public void changeLightColliderSize(){
+        float collideSize = 0;
+        if(lightFireSize - 0.7f > 0){
+            collideSize = lightFireSize - 0.7f;
+        }
+        else{
+            collideSize = 0;
+        }
+        colliderLight.radius = collideSize;
+    }
+
+    public void ChangeEnvironmentMode(Environment enviChange){
+        enviNow = enviChange;
+        SetDyingTIme();
+    }
+
+    public void SetDyingTIme(){
+        if(enviNow == Environment.normal)
+        {
+            dyingTime_Idle = dyingTime_IdleNormal;
+            dyingTime_Move = dyingTime_MoveNormal;
+        }
+        else if(enviNow == Environment.windy)
+        {
+            dyingTime_Idle = dyingTime_IdleWindy;
+            dyingTime_Move = dyingTime_MoveWindy;
+        }
     }
 
     private void Update() {
-        if(playerPosNow.position != playerPositionLast){
-            Debug.Log("berkurang");
-            playerPositionLast = playerPosNow.position;
-            if(lightFireSize > 0){
-                lightFireSize -= (lightFireMinus * Time.deltaTime);
-                changeFireSize();
+        if(gameManager.IsIngame()){
+            //tny ini jdnya mo pastiinnya gmn mo intinya berubah posisi trmasuk gerak ato tidak etc etc
+            float dyingTimeChange;
+            if(playerPosNow.position == playerPositionLast)
+            {
+                // Debug.Log("berkurang diam");
+                if(lightFireSize > 0)
+                {
+                    dyingTimeChange = -dyingTime_Idle * Time.deltaTime;
+                    
+                    changeFireSize(dyingTimeChange);
+                }
+                
+            }
+            else if(playerPosNow.position != playerPositionLast)
+            {
+                // Debug.Log("berkurang gerak");
+                
+                if(lightFireSize > 0)
+                {
+                    if(playerPositionLast.y == playerPosNow.position.y && playerPositionLast.x != playerPosNow.position.x)
+                    {
+                        if(playerMovement.GetDirX() == 0)
+                        {
+                            dyingTimeChange = -dyingTime_Idle * Time.deltaTime;
+                        }
+                        else{
+                            dyingTimeChange = -dyingTime_Move * Time.deltaTime;
+                            
+                        }
+                        changeFireSize(dyingTimeChange);
+                        
+                    }
+                    else if(playerPositionLast.y != playerPosNow.position.y && playerPositionLast.x == playerPosNow.position.x)
+                    {
+                        dyingTimeChange = -dyingTime_Move * Time.deltaTime;
+                        changeFireSize(dyingTimeChange);
+                    }
+                    else if(playerPositionLast.y != playerPosNow.position.y && playerPositionLast.x != playerPosNow.position.x)
+                    {
+                        dyingTimeChange = -dyingTime_Move * Time.deltaTime;
+                        changeFireSize(dyingTimeChange);
+                    }
+                }
+                playerPositionLast = playerPosNow.position;   
             }
             
+
+            if(lightFireSize < 0)
+            {
+                lightFireSize = 0;
+                changeFireSizeRadius();
+                changeLightColliderSize();
+
+                //ded
+                // gameManager.DeadState();
+            }
         }
+        
     }
 
     

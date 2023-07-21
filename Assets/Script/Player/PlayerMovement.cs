@@ -49,11 +49,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool isOnSlope;
 
 
+
+    private TheGameManager gameManager;
+    private bool isStart;
     
     
 
     void Awake()
     {
+        
+        isStart = true;
+
         playerRb = gameObject.GetComponent<Rigidbody2D>();
         isOnSlope = false;
         capsuleCollider = GetComponent<CapsuleCollider2D>();
@@ -69,12 +75,28 @@ public class PlayerMovement : MonoBehaviour
         lastPressedJumpTime = 0;
     }
 
+    private void Start() {
+        gameManager = TheGameManager.Instance;
+    }
+
     private void Update()
     {
-        float x = GetHorizontalInput();
+        float x;
+
+        if(gameManager.IsIngame()){
+            x = GetHorizontalInput();
+        }
+        else{
+            x = 0;
+        }
+
         dir = new Vector2(x, 0);
         PlayerJump();
         CheckEdgeCamera();
+    }
+
+    public float GetDirX(){
+        return dir.x;
     }
 
     void FixedUpdate()
@@ -125,16 +147,21 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Physics2D.OverlapBox(transform.position, new Vector2(0.1f, transform.localScale.y + 0.1f), 0, layerGround) && !isJumping) //checks if set box overlaps with ground
             {
+                if(isStart){
+                    isStart = false;
+                    StartCoroutine(StartCinematicToInGame_Counter());
+                }
                 SetGravityScale(defaultGravScale);
                 lastOnGroundTime = coyoteTime;
                 isOnGround = true;
             }
         }
+        
 
         if (isJumping && playerRb.velocity.y < 0) isJumping = false;
         
         //OnJumpInput
-        if (GetVerticalInput() && lastPressedJumpTime > 0)
+        if (GetVerticalInput() && lastPressedJumpTime > 0 && gameManager.IsIngame())
         {
             lastPressedJumpTime = 0;
             lastOnGroundTime = 0;
@@ -165,6 +192,11 @@ public class PlayerMovement : MonoBehaviour
                 isJumpCut = true;
             }
         }
+    }
+
+    private IEnumerator StartCinematicToInGame_Counter(){
+        yield return new WaitForSeconds(0.2f);
+        gameManager.ChangeToInGame();
     }
     private bool CanJumpCut()
     {
