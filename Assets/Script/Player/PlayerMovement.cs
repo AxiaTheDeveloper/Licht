@@ -183,7 +183,7 @@ public class PlayerMovement : MonoBehaviour
 
             isJumping = true;
             isJumpCut = false;
-            
+            isOnGround = false;
             wasOnJump = true;
             
         }
