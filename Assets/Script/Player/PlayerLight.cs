@@ -46,24 +46,30 @@ public class PlayerLight : MonoBehaviour
 
     private void Start() {
         gameManager = TheGameManager.Instance;
-    
-        lightFireSize = lightFireStartSize;
-        changeFireSizeRadius();
-        changeLightColliderSize();
+
+        restartFireSize(lightFireStartSize);
 
         ChangeEnvironmentMode(Environment.normal);
     }
-
     
     public void changeFireSize(float change){
         lightFireSize += change;
-        // Debug.Log(lightFireSize);
+
         changeFireSizeRadius();
         changeLightColliderSize();
     }
+
+    public void restartFireSize(float restartSize){
+        lightFireSize = restartSize;
+
+        changeFireSizeRadius();
+        changeLightColliderSize();
+    }
+
     private void changeFireSizeRadius(){
         lightFire.pointLightOuterRadius = lightFireSize;
     }
+
     public void changeLightColliderSize(){
         float collideSize = 0;
         if(lightFireSize - 0.7f > 0){
@@ -83,8 +89,8 @@ public class PlayerLight : MonoBehaviour
     public void SetDyingTIme(){
         if(enviNow == Environment.normal)
         {
-            dyingTime_Idle = dyingTime_IdleNormal;
-            dyingTime_Move = dyingTime_MoveNormal;
+            dyingTime_Idle = dyingTime_IdleNormal/2;
+            dyingTime_Move = dyingTime_MoveNormal/2;
         }
         else if(enviNow == Environment.windy)
         {
@@ -102,7 +108,7 @@ public class PlayerLight : MonoBehaviour
                 // Debug.Log("berkurang diam");
                 if(lightFireSize > 0)
                 {
-                    dyingTimeChange = -dyingTime_Idle * Time.deltaTime;
+                    dyingTimeChange = -dyingTime_Idle * Time.fixedDeltaTime;
                     
                     changeFireSize(dyingTimeChange);
                 }
@@ -118,10 +124,10 @@ public class PlayerLight : MonoBehaviour
                     {
                         if(playerMovement.GetDirX() == 0)
                         {
-                            dyingTimeChange = -dyingTime_Idle * Time.deltaTime;
+                            dyingTimeChange = -dyingTime_Idle * Time.fixedDeltaTime;
                         }
                         else{
-                            dyingTimeChange = -dyingTime_Move * Time.deltaTime;
+                            dyingTimeChange = -dyingTime_Move * Time.fixedDeltaTime;
                             
                         }
                         changeFireSize(dyingTimeChange);
@@ -129,12 +135,12 @@ public class PlayerLight : MonoBehaviour
                     }
                     else if(playerPositionLast.y != playerPosNow.position.y && playerPositionLast.x == playerPosNow.position.x)
                     {
-                        dyingTimeChange = -dyingTime_Move * Time.deltaTime;
+                        dyingTimeChange = -dyingTime_Move * Time.fixedDeltaTime;
                         changeFireSize(dyingTimeChange);
                     }
                     else if(playerPositionLast.y != playerPosNow.position.y && playerPositionLast.x != playerPosNow.position.x)
                     {
-                        dyingTimeChange = -dyingTime_Move * Time.deltaTime;
+                        dyingTimeChange = -dyingTime_Move * Time.fixedDeltaTime;
                         changeFireSize(dyingTimeChange);
                     }
                 }
@@ -144,18 +150,11 @@ public class PlayerLight : MonoBehaviour
 
             if(lightFireSize < 0)
             {
-                lightFireSize = 0;
-                changeFireSizeRadius();
-                changeLightColliderSize();
+                restartFireSize(0f);
 
-                //ded
-                // gameManager.DeadState();
             }
         }
         
     }
 
-    
-
-    
 }

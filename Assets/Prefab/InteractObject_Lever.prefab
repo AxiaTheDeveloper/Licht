@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6087143921174872761
+--- !u!1001 &7752242108798436821
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -12,13 +12,21 @@ PrefabInstance:
       value: InteractObject_Lever
       objectReference: {fileID: 0}
     - target: {fileID: 4697539279538611670, guid: 176829784cc660e44a74d564bea73e20, type: 3}
-      propertyPath: m_SortingLayer
-      value: 5
+      propertyPath: m_Color.b
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4697539279538611670, guid: 176829784cc660e44a74d564bea73e20, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 379368899
+      propertyPath: m_Color.g
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4697539279538611670, guid: 176829784cc660e44a74d564bea73e20, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4697539279538611671, guid: 176829784cc660e44a74d564bea73e20, type: 3}
+      propertyPath: lever
+      value: 
+      objectReference: {fileID: 7089699216894730919}
     - target: {fileID: 4697539279538611673, guid: 176829784cc660e44a74d564bea73e20, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -63,27 +71,39 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4875104867814186487, guid: 176829784cc660e44a74d564bea73e20, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4875104867814186487, guid: 176829784cc660e44a74d564bea73e20, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4875104867814186487, guid: 176829784cc660e44a74d564bea73e20, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 176829784cc660e44a74d564bea73e20, type: 3}
---- !u!1 &1533724382413285229 stripped
+--- !u!1 &3072717228040675329 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4697539279538611668, guid: 176829784cc660e44a74d564bea73e20, type: 3}
-  m_PrefabInstance: {fileID: 6087143921174872761}
+  m_PrefabInstance: {fileID: 7752242108798436821}
   m_PrefabAsset: {fileID: 0}
---- !u!61 &6595545228352539588
+--- !u!61 &8909260383459112444
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1533724382413285229}
+  m_GameObject: {fileID: 3072717228040675329}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.46608883}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -94,5 +114,17 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 0.06782234}
   m_EdgeRadius: 0
+--- !u!114 &7089699216894730919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3072717228040675329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1c4ac21cac232548b46046f3aa15ea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

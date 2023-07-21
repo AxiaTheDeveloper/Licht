@@ -169,7 +169,7 @@ public class PlayerMovement : MonoBehaviour
             lastPressedJumpTime = 0;
             lastOnGroundTime = 0;
 
-            Debug.Log("Running");
+            // Debug.Log("Running");
             float tempForce = verticalForce;
             if (playerRb.velocity.y < 0)
             {
