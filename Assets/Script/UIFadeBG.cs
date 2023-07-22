@@ -16,7 +16,7 @@ public class UIFadeBG : MonoBehaviour
     }
     public void ShowUIDead(){
         LeanTween.alpha(fadeBG, 1f, 0.3f).setOnComplete(
-            ()=> SceneManager.LoadScene(SceneManager.GetActiveScene().name) // ini ganti ke nama first scene entar
+            ()=> SceneManager.LoadScene("normal") // ini ganti ke nama first scene entar
         );
     }
 
