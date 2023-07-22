@@ -6,14 +6,14 @@ using UnityEngine;
 public class Lever
 {
     public void Interact(Interact_Lever lever){
-        Debug.Log("lever");
+        lever.UseLever();
     }
 }
 
 public class Beacon
 {
-    public void Interact(){
-        Debug.Log("Beacon");
+    public void Interact(Interact_Beacon beacon, PlayerLight playerLight){
+        beacon.LightUpBeacon(playerLight);
     }
 }
 
@@ -35,6 +35,9 @@ public class InteractObject : MonoBehaviour
     private TheGameManager gameManager;
     [SerializeField]private GameObject popUp;
     [SerializeField]private bool isInRange;
+    [SerializeField]private bool canInteractManyTimes;
+    private bool alreadyInteract;
+
     public enum InteractType{
         lightCollider, smallCollider, playerCollider
     }
@@ -52,6 +55,7 @@ public class InteractObject : MonoBehaviour
     private KeyGate KeyGateClass;
 
     [SerializeField]private Interact_Lever lever;
+    [SerializeField]private Interact_Beacon beacon;
     [SerializeField]private Interact_LightSource lightSource;
     [SerializeField]private Interact_KeyGate keyGate;
 
@@ -60,6 +64,7 @@ public class InteractObject : MonoBehaviour
     
     private void Awake() {
         popUp = gameObject.transform.GetChild(0).gameObject;
+        alreadyInteract = false;
         
         isInRange = false;
         if(interactType == InteractType.lightCollider){
@@ -97,19 +102,39 @@ public class InteractObject : MonoBehaviour
         
         if(isInRange && gameManager.IsIngame()){
             if(GetInputInteract()){
-                if(interactObjectType == InteracTObjectType.Lever)
-                {
-                    LeverClass.Interact(lever);
+                if(canInteractManyTimes){
+                    InteractFunction();
                 }
-                else if(interactObjectType == InteracTObjectType.Beacon)
-                {
-                    BeaconClass.Interact();
+                else{
+                    if(!alreadyInteract){
+                        alreadyInteract = true;
+                        popUp.gameObject.SetActive(false);
+                        InteractFunction();
+                    }
                 }
-                else if(interactObjectType == InteracTObjectType.LightSource)
-                {
-                    LightSourceClass.Interact(lightSource, playerLight);
-                }
+                
             }
+        }
+    }
+
+    private void InteractFunction(){
+        if(interactObjectType == InteracTObjectType.Lever)
+        {
+            LeverClass.Interact(lever);
+        }
+        else if(interactObjectType == InteracTObjectType.Beacon)
+        {
+            if(!beacon.IsLitUp()){
+                BeaconClass.Interact(beacon, playerLight);
+            }
+            if(beacon.IsLitUp()){
+                popUp.gameObject.SetActive(false);
+            }
+            
+        }
+        else if(interactObjectType == InteracTObjectType.LightSource)
+        {
+            LightSourceClass.Interact(lightSource, playerLight);
         }
     }
 
@@ -125,11 +150,26 @@ public class InteractObject : MonoBehaviour
                     playerInteract.AddKey();
                     KeyGateClass.Interact(keyGate, playerInteract);
                 }
-                
             }
             else{
                 isInRange = true;
-                popUp.gameObject.SetActive(true);
+                
+                if(canInteractManyTimes){
+                    if(interactObjectType == InteracTObjectType.Beacon){
+                        if(!beacon.IsLitUp()){
+                            popUp.gameObject.SetActive(true);
+                        }
+                    }
+                    else{
+                        popUp.gameObject.SetActive(true);
+                    }
+                    
+                }
+                else{
+                    if(!alreadyInteract){
+                        popUp.gameObject.SetActive(true);
+                    }
+                }
                 playerLight = other.GetComponentInParent<PlayerLight>();
             }
             
@@ -140,8 +180,20 @@ public class InteractObject : MonoBehaviour
         if(other.gameObject.CompareTag(compareTagCollider))
         {
             isInRange = false;
-            popUp.gameObject.SetActive(false);
+            if(popUp.activeSelf){
+                popUp.gameObject.SetActive(false);
+            }
             playerLight = null;
         }
     }
+
+    public Interact_Lever GetInteract_Lever(){
+        return lever;
+    }
+    // public Interact_Beacon GetInteract_Beacon(){
+    //     return beacon;
+    // }
+    // public Interact_KeyGate GetInteract_KeyGate(){
+    //     return keyGate;
+    // }
 }

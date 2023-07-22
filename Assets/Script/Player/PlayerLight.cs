@@ -51,6 +51,10 @@ public class PlayerLight : MonoBehaviour
 
         ChangeEnvironmentMode(Environment.normal);
     }
+
+    public float GetFireSize(){
+        return lightFireSize;
+    }
     
     public void changeFireSize(float change){
         lightFireSize += change;
