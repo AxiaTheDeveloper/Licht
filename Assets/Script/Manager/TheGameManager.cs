@@ -10,6 +10,11 @@ public class TheGameManager : MonoBehaviour
         cinematic, inGame, Pause, Finish, Dead
     }
     [SerializeField]private gameState state;
+    
+    public enum gameEnvironment{
+        normal, windy
+    }
+    [SerializeField]private gameEnvironment environment;
 
     private bool isPause;
 
@@ -34,6 +39,9 @@ public class TheGameManager : MonoBehaviour
         inputCooldown = 0;
         exitCounter = 0;
         state = gameState.cinematic;
+    }
+    public gameEnvironment GetEnvironment(){
+        return environment;
     }
 
     private void Update() {
@@ -102,7 +110,7 @@ public class TheGameManager : MonoBehaviour
 
     public void DeadState(){
         state = gameState.Dead;
-        fadeBG.ShowUI();
+        fadeBG.ShowUIDead();
     }
 
     

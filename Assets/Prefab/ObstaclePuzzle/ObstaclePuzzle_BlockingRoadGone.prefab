@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2204491958539380574, guid: 4d58291c4c62eef4ab76a2bff3a8f749, type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2946425610721933877, guid: 4d58291c4c62eef4ab76a2bff3a8f749, type: 3}
       propertyPath: m_Name
@@ -60,16 +60,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7712976552673931984, guid: 4d58291c4c62eef4ab76a2bff3a8f749, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -508939279, guid: 5e62f42d4dca9c947a5df7e8ac70773a, type: 3}
+    - target: {fileID: 7712976552673931984, guid: 4d58291c4c62eef4ab76a2bff3a8f749, type: 3}
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7712976552673931984, guid: 4d58291c4c62eef4ab76a2bff3a8f749, type: 3}
       propertyPath: m_Color.g
-      value: 0.51028496
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7712976552673931984, guid: 4d58291c4c62eef4ab76a2bff3a8f749, type: 3}
       propertyPath: m_Color.r
-      value: 0.4188679
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7838475713132241822, guid: 4d58291c4c62eef4ab76a2bff3a8f749, type: 3}
       propertyPath: puzzleType
@@ -114,5 +118,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 5}
+  m_Size: {x: 0.75, y: 2}
   m_EdgeRadius: 0

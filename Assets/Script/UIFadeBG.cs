@@ -14,10 +14,22 @@ public class UIFadeBG : MonoBehaviour
     private void HideUI(){
         LeanTween.alpha(fadeBG, 0f, 0.8f);
     }
-    public void ShowUI(){
+    public void ShowUIDead(){
         LeanTween.alpha(fadeBG, 1f, 0.3f).setOnComplete(
-            ()=> SceneManager.LoadScene(SceneManager.GetActiveScene().name)
+            ()=> SceneManager.LoadScene(SceneManager.GetActiveScene().name) // ini ganti ke nama first scene entar
         );
+    }
+
+    public void ShowUINextScene(){
+        LeanTween.alpha(fadeBG, 1f, 0.3f).setOnComplete(
+            ()=> SceneManager.LoadScene(SceneManager.GetActiveScene().name)//ini ganti ke scene selanjutnya di the game managernya kita bikin ae environment
+        );
+    }
+    private void ChooseNextScene(){
+        TheGameManager gameManager = TheGameManager.Instance;
+        if(gameManager.GetEnvironment() == TheGameManager.gameEnvironment.normal){
+            //load scene windy, trus kalo windy load scene a gitu
+        }
     }
     public void ShowUIExit(){
         LeanTween.alpha(fadeBG, 1f, 0.3f).setOnComplete(

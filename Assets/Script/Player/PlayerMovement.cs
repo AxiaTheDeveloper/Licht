@@ -177,7 +177,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!isJumping) 
         {
-            if (Physics2D.OverlapBox(transform.position, new Vector2(0.1f, transform.localScale.y + 2f), 0, layerGround) && !isJumping) //checks if set box overlaps with ground
+            if (Physics2D.OverlapBox(transform.position, new Vector2(0.1f, transform.localScale.y + 1.68f), 0, layerGround) && !isJumping) //checks if set box overlaps with ground
             {
                 if(isStart){
                     isStart = false;
