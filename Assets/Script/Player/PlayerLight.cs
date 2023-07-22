@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerLight : MonoBehaviour
 {
-    
+    public static PlayerLight Instance{get; private set;}
     public enum Environment{
         normal, windy
     }
@@ -39,6 +39,7 @@ public class PlayerLight : MonoBehaviour
     private PlayerMovement playerMovement;
 
     private void Awake() {
+        Instance = this;
         playerMovement = GetComponent<PlayerMovement>();
         playerPosNow = GetComponent<Transform>();
         playerPositionLast = playerPosNow.position;
@@ -76,8 +77,8 @@ public class PlayerLight : MonoBehaviour
 
     public void changeLightColliderSize(){
         float collideSize = 0;
-        if(lightFireSize - 0.7f > 0){
-            collideSize = lightFireSize - 0.7f;
+        if(lightFireSize - 1f > 0){
+            collideSize = lightFireSize - 1f;
         }
         else{
             collideSize = 0;
@@ -159,6 +160,12 @@ public class PlayerLight : MonoBehaviour
             }
         }
         
+    }
+
+    public void LightsOutExit(){
+        while(lightFireSize >= 0){
+            changeFireSize(-0.1f*Time.fixedDeltaTime);
+        }
     }
 
 }

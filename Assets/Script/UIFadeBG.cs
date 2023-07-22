@@ -19,5 +19,10 @@ public class UIFadeBG : MonoBehaviour
             ()=> SceneManager.LoadScene(SceneManager.GetActiveScene().name)
         );
     }
+    public void ShowUIExit(){
+        LeanTween.alpha(fadeBG, 1f, 0.3f).setOnComplete(
+            ()=> Application.Quit()
+        );
+    }
 
 }

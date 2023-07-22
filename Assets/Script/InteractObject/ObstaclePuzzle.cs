@@ -177,6 +177,9 @@ public class ObstaclePuzzle : MonoBehaviour
                             if(isPermanentSolve){
                                 interactObject.CannotInteractManyTimes();
                             }
+                            else{
+                                interactObject.CanInteractManyTimes();
+                            }
                         }
                         LeanTween.move(gameObject, obstaclePos_End, obstacle_Speed).setOnComplete(
                             ()=> Do_CanInteractManyTimes()

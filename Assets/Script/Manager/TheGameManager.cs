@@ -41,12 +41,7 @@ public class TheGameManager : MonoBehaviour
             if(GetInputDownPause() && inputCooldown <= 0){
                 isInputPauseInGame = true;
                 inputCooldown = inputCooldownMax;
-                if(exitCounter < ExitCounterMax){
-                    exitCounter += Time.deltaTime;
-                }
-                if(exitCounter > ExitCounterMax){
-                    Debug.Log("Exit");
-                }
+                
             }
             if(GetInputUpPause() && exitCounter < ExitCounterMax){
                 isInputPauseInGame = false;
@@ -65,7 +60,16 @@ public class TheGameManager : MonoBehaviour
         if(inputCooldown > 0){
             inputCooldown -= Time.deltaTime;
         }
-        if(isi)
+        if(isInputPauseInGame){
+            if(exitCounter < ExitCounterMax){
+                exitCounter += Time.deltaTime;
+            }
+            if(exitCounter > ExitCounterMax){
+                state = gameState.cinematic;
+                PlayerLight.Instance.LightsOutExit();
+                fadeBG.ShowUIExit();
+            }
+        }
 
     }
     private bool GetInputDownPause(){

@@ -226,4 +226,9 @@ public class InteractObject : MonoBehaviour
             canInteractManyTimes = false;
         }
     }
+    public void CanInteractManyTimes(){
+        if(!canInteractManyTimes){
+            canInteractManyTimes = true;
+        }
+    }
 }
