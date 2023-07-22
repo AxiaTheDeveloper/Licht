@@ -49,9 +49,6 @@ TagManager:
   - name: Foreground
     uniqueID: 2484071985
     locked: 0
-  - name: Player
-    uniqueID: 1094254525
-    locked: 0
   - name: Obstacle
     uniqueID: 1022091269
     locked: 0
@@ -60,4 +57,7 @@ TagManager:
     locked: 0
   - name: PopUp
     uniqueID: 379368899
+    locked: 0
+  - name: Player
+    uniqueID: 1094254525
     locked: 0

@@ -12,12 +12,14 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D playerRb;
     private CapsuleCollider2D capsuleCollider;
     private MoveCamera moveCamera;
+    private DustParticleSpawner dustPSpawner;
 
 
     [Header("== Variables ==")]
 
     [Tooltip("Movement Direction"), SerializeField] 
     private Vector2 dir;
+    private bool dustIsRunning;
 
 
     [Header("Horizontal Variables")]
@@ -35,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float defaultGravScale;
     [SerializeField] private float gravScaleMultOnJumpCut;
     [SerializeField] private float jumpInputBuffer;
-    private bool isJumpCut, isOnGround, wasOnJump;
+    [SerializeField] private bool isJumpCut, isOnGround, wasOnJump;
     [SerializeField, Tooltip("Time for how long player still can jump on the ledge")] 
     private float coyoteTime;
 
@@ -91,6 +93,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start() {
         gameManager = TheGameManager.Instance;
+        int lastChild = transform.childCount - 1;
+        dustPSpawner = transform.GetChild(lastChild).GetComponent<DustParticleSpawner>();
     }
 
     private void Update()
@@ -108,6 +112,7 @@ public class PlayerMovement : MonoBehaviour
         PlayerJump();
         PlayerRotation();
         CheckEdgeCamera();
+        PlayDustEffect();
     }
 
     void FixedUpdate()
@@ -177,7 +182,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!isJumping) 
         {
-            if (Physics2D.OverlapBox(transform.position, new Vector2(0.1f, transform.localScale.y + 2f), 0, layerGround) && !isJumping) //checks if set box overlaps with ground
+            if (Physics2D.OverlapBox(transform.position - new Vector3(0f, 0.5f), new Vector2(0.1f, transform.localScale.y + 0.8f), 0, layerGround) && !isJumping) //checks if set box overlaps with ground
             {
                 if(isStart){
                     isStart = false;
@@ -414,6 +419,19 @@ public class PlayerMovement : MonoBehaviour
             }
             
             playerRb.velocity = SaveVelocityPause;
+        }
+    }
+    private void PlayDustEffect()
+    {
+        if (playerRb.velocity.x > 0 && GetHorizontalInput() != 0 && !dustIsRunning && isOnGround)
+        {
+            Debug.Log("Running");
+            dustIsRunning = true;
+            dustPSpawner.SummonDustTrail(playerRb.transform.position, GetHorizontalInput());
+        }
+        if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A))
+        {
+            dustIsRunning = false;
         }
     }
     #endregion
