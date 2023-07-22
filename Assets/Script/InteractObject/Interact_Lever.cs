@@ -6,20 +6,26 @@ using System;
 public class Interact_Lever : MonoBehaviour
 {
     [SerializeField]private bool leverOn;
-    [SerializeField]private Animator leverAnimator;
+    // [SerializeField]private Animator leverAnimator;
+    [SerializeField]private Sprite leverOnSprite, leverOffSprite;
+    [SerializeField]private SpriteRenderer spriteRenderer;
     public event EventHandler OnUsedLever;
     private void Awake() {
         leverOn = false;
+        spriteRenderer = gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>();
     }
     public void UseLever(){
         leverOn = !leverOn;
-        leverAnimator.SetBool("isLeverOn", leverOn);
-        //nyalain animasi lever trus ntr br jalanin functionnya
+        if(leverOn){
+            spriteRenderer.sprite = leverOnSprite;
+        }
+        else{
+            spriteRenderer.sprite = leverOffSprite;
+        }
+        OnUsedLever?.Invoke(this,EventArgs.Empty);
         
     }
-    public void AnimationFinish(){
-        OnUsedLever?.Invoke(this,EventArgs.Empty);
-    }
+
     public bool GetLeverOn(){
         return leverOn;
     }

@@ -43,10 +43,11 @@ public class ObstaclePuzzle : MonoBehaviour
     [Header("Puzzle - BlockingRoadMove")]
     
     [SerializeField] private List<InteractObject> interactObjects; // ini khusus utk lever aja ya, karena cuma lever doang yg bisa revert balik dirinya
-    [SerializeField] private bool atStart;
+    [SerializeField] private bool atStart, isTwoGate;
+    [SerializeField] private GameObject Gate1, Gate2;
     
-    [SerializeField]private Vector3 obstaclePos_Start;
-    [SerializeField]private Vector3 obstaclePos_End;
+    [SerializeField]private Vector3 obstaclePos_Start_1, obstaclePos_Start_2;
+    [SerializeField]private Vector3 obstaclePos_End_1, obstaclePos_End_2;
     [SerializeField]private float obstacle_Speed;
     [Header("Puzzle - Missing - Gausa dimasukkin Gapapa")]
     [SerializeField]private bool isMissing;
@@ -77,8 +78,16 @@ public class ObstaclePuzzle : MonoBehaviour
             }
         }
         if(puzzleType == PuzzleType.BlockingRoadMove){
-            obstaclePos_Start = transform.position;
+            if(isTwoGate){
+                obstaclePos_Start_1 = Gate1.transform.localPosition;
+                obstaclePos_Start_2 = Gate2.transform.localPosition;
+                
+            }
+            else{
+                obstaclePos_Start_1 = Gate1.transform.localPosition;
+            }
             atStart = true;
+            
         }
         if(gateOpenType == GateOpenType.Lever){
             foreach(Interact_Lever lever in levers){
@@ -155,6 +164,11 @@ public class ObstaclePuzzle : MonoBehaviour
         
         
     }
+    private void Do_CanInteractManyTimes_ForBlockingRoad(bool change){
+        Gate1.GetComponent<Collider2D>().enabled = change;
+        Do_CanInteractManyTimes();
+
+    }
 
     private void Do_CanInteractManyTimes_ForMissing(){
         obstacleCollider.enabled = true;
@@ -163,12 +177,14 @@ public class ObstaclePuzzle : MonoBehaviour
     }
 
     private void SolvedPuzzle(){
+        
         if(puzzleType == PuzzleType.BlockingRoadMove)
         {   
             if(atStart)
             {
                 if(gateOpenType == GateOpenType.Lever){
                     if(isAnswerRight){
+                        gameObject.GetComponent<Collider2D>().enabled = false;
                         atStart = !atStart;
                         foreach(InteractObject interactObject in interactObjects){
                             if(interactObject.GetCanInteractManyTimes()){
@@ -181,15 +197,45 @@ public class ObstaclePuzzle : MonoBehaviour
                                 interactObject.CanInteractManyTimes();
                             }
                         }
-                        LeanTween.move(gameObject, obstaclePos_End, obstacle_Speed).setOnComplete(
-                            ()=> Do_CanInteractManyTimes()
-                        );
+                        if(isTwoGate){
+                            
+                            LeanTween.moveLocal(Gate1, obstaclePos_End_1, obstacle_Speed).setOnComplete(
+                                ()=> Do_CanInteractManyTimes_ForBlockingRoad(false)
+                            );
+                            LeanTween.moveLocal(Gate2, obstaclePos_End_2, obstacle_Speed).setOnComplete(
+                                ()=> Gate2.GetComponent<Collider2D>().enabled = false
+                            );
+                        }
+                        else{
+                            LeanTween.moveLocal(Gate1, obstaclePos_End_1, obstacle_Speed).setOnComplete(
+                                ()=> Do_CanInteractManyTimes_ForBlockingRoad(false)
+                            );
+                        }
+                        
                         
                     }
                 }
                 else{
                     atStart = !atStart;
-                    LeanTween.move(gameObject, obstaclePos_End, obstacle_Speed);
+                    gameObject.GetComponent<Collider2D>().enabled = false;
+                    // Debug.Log("solved");
+                    if(isTwoGate){
+                        
+                        LeanTween.moveLocal(Gate1, obstaclePos_End_1, obstacle_Speed).setOnComplete(
+                            ()=> Gate1.GetComponent<Collider2D>().enabled = false
+                        );
+                        LeanTween.moveLocal(Gate2, obstaclePos_End_2, obstacle_Speed).setOnComplete(
+                            ()=> Gate2.GetComponent<Collider2D>().enabled = false
+                        );
+                    }
+                    else{
+                        // Debug.Log("solved???");
+                        LeanTween.moveLocal(Gate1, obstaclePos_End_1, obstacle_Speed).setOnComplete(
+                            ()=> Gate1.GetComponent<Collider2D>().enabled = false
+                        );
+                    }
+                    
+                    // LeanTween.move(gameObject, obstaclePos_End, obstacle_Speed); kalo gerak 1 doang
                     
                 }
                 
@@ -204,16 +250,34 @@ public class ObstaclePuzzle : MonoBehaviour
                                 interactObject.changeIsMoving(true);
                             } 
                         }
-                        LeanTween.move(gameObject, obstaclePos_Start, obstacle_Speed).setOnComplete(
-                            ()=> Do_CanInteractManyTimes()
-                        );
-                        
+                        if(isTwoGate){
+                            Gate1.GetComponent<Collider2D>().enabled = true;
+                            Gate2.GetComponent<Collider2D>().enabled = true;
+                            LeanTween.moveLocal(Gate1, obstaclePos_Start_1, obstacle_Speed).setOnComplete(
+                                ()=> Do_CanInteractManyTimes()
+                            );
+                            LeanTween.moveLocal(Gate2, obstaclePos_Start_2, obstacle_Speed);
+                        }
+                        else{
+                            Gate1.GetComponent<Collider2D>().enabled = true;
+                            LeanTween.moveLocal(Gate1, obstaclePos_Start_1, obstacle_Speed).setOnComplete(
+                                ()=> Do_CanInteractManyTimes()
+                            );
+                        }
                     }
                 }
                 else{
                     atStart = !atStart;
-                    LeanTween.move(gameObject, obstaclePos_Start, obstacle_Speed);
-                    
+                    if(isTwoGate){
+                        Gate1.GetComponent<Collider2D>().enabled = true;
+                        Gate2.GetComponent<Collider2D>().enabled = true;
+                        LeanTween.moveLocal(Gate1, obstaclePos_Start_1, obstacle_Speed);
+                        LeanTween.moveLocal(Gate2, obstaclePos_Start_2, obstacle_Speed);
+                    }
+                    else{
+                        Gate1.GetComponent<Collider2D>().enabled = true;
+                        LeanTween.moveLocal(Gate1, obstaclePos_Start_1, obstacle_Speed);
+                    }
                 }
                 
             }

@@ -38,6 +38,8 @@ public class PlayerLight : MonoBehaviour
     private TheGameManager gameManager;
     private PlayerMovement playerMovement;
 
+    [SerializeField]private float LightSizeDifferenceWithCollider;
+
     private void Awake() {
         Instance = this;
         playerMovement = GetComponent<PlayerMovement>();
@@ -49,8 +51,14 @@ public class PlayerLight : MonoBehaviour
         gameManager = TheGameManager.Instance;
 
         restartFireSize(lightFireStartSize);
+        if(gameManager.GetEnvironment() == TheGameManager.gameEnvironment.normal){
+            ChangeEnvironmentMode(Environment.normal);
+        }
+        else if(gameManager.GetEnvironment() == TheGameManager.gameEnvironment.windy){
+            ChangeEnvironmentMode(Environment.windy);
+        }
 
-        ChangeEnvironmentMode(Environment.normal);
+        
     }
 
     public float GetFireSize(){
@@ -77,8 +85,8 @@ public class PlayerLight : MonoBehaviour
 
     public void changeLightColliderSize(){
         float collideSize = 0;
-        if(lightFireSize - 1f > 0){
-            collideSize = lightFireSize - 1f;
+        if(lightFireSize - LightSizeDifferenceWithCollider > 0){
+            collideSize = lightFireSize - LightSizeDifferenceWithCollider;
         }
         else{
             collideSize = 0;

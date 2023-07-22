@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9165921310229857863}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.419, z: 0}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_ComponentVersion: 1
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.5
+  m_FalloffIntensity: 0.2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 0
   m_LightVolumeIntensity: 1
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 1
+  m_PointLightOuterRadius: 3
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -120,11 +120,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1367522858747679747, guid: 176829784cc660e44a74d564bea73e20, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1367522858747679747, guid: 176829784cc660e44a74d564bea73e20, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4697539279538611668, guid: 176829784cc660e44a74d564bea73e20, type: 3}
       propertyPath: m_Name
@@ -190,9 +190,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4875104867814186487, guid: 176829784cc660e44a74d564bea73e20, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1156661291, guid: 5e62f42d4dca9c947a5df7e8ac70773a, type: 3}
     - target: {fileID: 8555915293542276690, guid: 176829784cc660e44a74d564bea73e20, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.975
+      value: 1.35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 176829784cc660e44a74d564bea73e20, type: 3}
@@ -219,7 +223,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.3101673}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -230,7 +234,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 2}
+  m_Size: {x: 1, y: 1.37}
   m_EdgeRadius: 0
 --- !u!114 &1727152717829417667
 MonoBehaviour:
@@ -246,3 +250,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beaconLight: {fileID: 8466943602947448209}
   powerNeededPower: 0.5
+  beaconOnSprite: {fileID: 1988216938, guid: 5e62f42d4dca9c947a5df7e8ac70773a, type: 3}
+  spriteRenderer: {fileID: 0}

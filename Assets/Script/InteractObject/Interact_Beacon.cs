@@ -11,19 +11,25 @@ public class Interact_Beacon : MonoBehaviour
     private bool isLitUp;
 
     public event EventHandler OnBeaconLitUp; // lempar ke obstaclePuzzle
+    [SerializeField]private Sprite beaconOnSprite;
+    [SerializeField]private SpriteRenderer spriteRenderer;
 
     private void Awake() {
         isLitUp = false;
+        spriteRenderer = gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>();
     }
 
     public void LightUpBeacon(PlayerLight playerLight){
         if(playerLight.GetFireSize() >= powerNeededPower){
             playerLight.changeFireSize(-powerNeededPower);
             isLitUp = true;
+
+            spriteRenderer.sprite = beaconOnSprite;
+
             beaconLight.intensity = 1;
             OnBeaconLitUp?.Invoke(this,EventArgs.Empty);
         }
-        // Debug.Log(isLitUp);
+        
     }
 
     public bool IsLitUp(){

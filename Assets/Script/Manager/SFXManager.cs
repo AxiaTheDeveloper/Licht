@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class SFXManager : MonoBehaviour
 {
-    [SerializeField]private AudioSource SFXA;
+    [SerializeField]private AudioSource walkSFX;
     private float volume;
     private const string PLAYER_PREF_SFX_VOLUME = "SFX_Volume";
+    public static SFXManager Instance {get; private set;}
+    private void Awake() {
+        Instance = this;
+    }
 
     private void Start() {
         volume = PlayerPrefs.GetFloat(PLAYER_PREF_SFX_VOLUME, 0.3f);
@@ -42,6 +46,17 @@ public class SFXManager : MonoBehaviour
         
     }
     private void UpdateAllVolume(){
-        SFXA.volume = volume;
+        walkSFX.volume = volume;
+    }
+
+    public void PlaySFX_PlayerWalk(){
+        walkSFX.Play();
+    }
+    public void StopSFX_PlayerWalk(){
+        walkSFX.Stop();
+    }
+    public bool isPlayedSFX_PlayerWalk(){
+        return walkSFX.isPlaying;
+
     }
 }

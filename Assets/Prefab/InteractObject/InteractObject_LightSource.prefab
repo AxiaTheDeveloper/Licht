@@ -80,16 +80,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4875104867814186487, guid: 176829784cc660e44a74d564bea73e20, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 777056471, guid: 5e62f42d4dca9c947a5df7e8ac70773a, type: 3}
+    - target: {fileID: 4875104867814186487, guid: 176829784cc660e44a74d564bea73e20, type: 3}
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4875104867814186487, guid: 176829784cc660e44a74d564bea73e20, type: 3}
       propertyPath: m_Color.g
-      value: 0.5010276
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4875104867814186487, guid: 176829784cc660e44a74d564bea73e20, type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 176829784cc660e44a74d564bea73e20, type: 3}
@@ -122,7 +126,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.5}
+  m_Size: {x: 0.5, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &-5633738945333968597
 MonoBehaviour:

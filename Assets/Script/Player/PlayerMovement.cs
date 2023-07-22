@@ -65,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isStart;
 
     private Vector2 SaveVelocityPause;
+    private SFXManager sfxManager;
     
     
 
@@ -95,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
         gameManager = TheGameManager.Instance;
         int lastChild = transform.childCount - 1;
         dustPSpawner = transform.GetChild(lastChild).GetComponent<DustParticleSpawner>();
+        sfxManager = SFXManager.Instance;
     }
 
     private void Update()
@@ -109,6 +111,20 @@ public class PlayerMovement : MonoBehaviour
         }
 
         dir = new Vector2(x, 0);
+        if(isOnGround){
+            if(dir.x != 0){
+                if(!sfxManager.isPlayedSFX_PlayerWalk()){
+                    sfxManager.PlaySFX_PlayerWalk();
+                }
+                
+            }
+            else{
+                sfxManager.StopSFX_PlayerWalk();
+            }
+        }
+        else{
+            sfxManager.StopSFX_PlayerWalk();
+        }
         PlayerJump();
         PlayerRotation();
         CheckEdgeCamera();
