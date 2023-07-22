@@ -13,11 +13,15 @@ public class Interact_Lever : MonoBehaviour
     }
     public void UseLever(){
         leverOn = !leverOn;
+        leverAnimator.SetBool("isLeverOn", leverOn);
         //nyalain animasi lever trus ntr br jalanin functionnya
-        AnimationFinish();
+        
     }
     public void AnimationFinish(){
         OnUsedLever?.Invoke(this,EventArgs.Empty);
+    }
+    public bool GetLeverOn(){
+        return leverOn;
     }
 
     

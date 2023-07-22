@@ -6,6 +6,8 @@ using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement Instance {get; private set;}
+
     [Header("== References Object ==")]
     private Rigidbody2D playerRb;
     private CapsuleCollider2D capsuleCollider;
@@ -48,18 +50,28 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 slopeNormalPerpendicular;
     [SerializeField] private bool isOnSlope;
 
+    [Header("Player Rotation")]
+    [SerializeField] private Transform playerVisual;
+    [SerializeField] private Transform LightVisual;
+    [SerializeField]private Vector3 left_lightVisualPos, right_lightVisualPos;
+
+    [Header("Player Animator")]
+    [SerializeField]private Animator playerAnimator;
 
 
     private TheGameManager gameManager;
     private bool isStart;
+
+    private Vector2 SaveVelocityPause;
     
     
 
     void Awake()
     {
-        
-        isStart = true;
+        Instance = this;
 
+        isStart = true;
+        playerAnimator = gameObject.transform.GetChild(0).gameObject.GetComponent<Animator>();
         playerRb = gameObject.GetComponent<Rigidbody2D>();
         isOnSlope = false;
         capsuleCollider = GetComponent<CapsuleCollider2D>();
@@ -70,6 +82,8 @@ public class PlayerMovement : MonoBehaviour
         wasOnJump = true;
         isJumping = false;
         isOnGround = false;
+        playerAnimator.SetBool("IsOnGround", false);
+
         SetGravityScale(defaultGravScale);
         lastOnGroundTime = 0;
         lastPressedJumpTime = 0;
@@ -92,11 +106,8 @@ public class PlayerMovement : MonoBehaviour
 
         dir = new Vector2(x, 0);
         PlayerJump();
+        PlayerRotation();
         CheckEdgeCamera();
-    }
-
-    public float GetDirX(){
-        return dir.x;
     }
 
     void FixedUpdate()
@@ -106,6 +117,23 @@ public class PlayerMovement : MonoBehaviour
     }
 
     #region Methods
+
+    public float GetDirX(){
+        return dir.x;
+    }
+
+    public void PlayerRotation(){
+        if(dir.x == 1){
+            float playerScaleX = Math.Abs(playerVisual.localScale.x);
+            playerVisual.localScale = new Vector2(playerScaleX, playerVisual.localScale.y);
+            LightVisual.transform.localPosition = right_lightVisualPos;
+        }
+        else if(dir.x == -1){
+            float playerScaleX = Math.Abs(playerVisual.localScale.x) * -1;
+            playerVisual.localScale = new Vector2(playerScaleX, playerVisual.localScale.y);
+            LightVisual.transform.localPosition = left_lightVisualPos;
+        }
+    }
 
     private float GetHorizontalInput()
     {
@@ -131,6 +159,10 @@ public class PlayerMovement : MonoBehaviour
         LayerMask groundLayer = LayerMask.GetMask("Ground");
         lastOnGroundTime -= Time.deltaTime;
         lastPressedJumpTime -= Time.deltaTime;
+        
+        if(!isOnGround){
+            playerAnimator.SetFloat("playerRb",playerRb.velocity.y);
+        }
 
         if (isJumpCut)
         {
@@ -154,12 +186,14 @@ public class PlayerMovement : MonoBehaviour
                 SetGravityScale(defaultGravScale);
                 lastOnGroundTime = coyoteTime;
                 isOnGround = true;
+                playerAnimator.SetBool("IsOnGround", true);
             }
             else{
                 isOnGround = false;
+                playerAnimator.SetBool("IsOnGround", false);
             }
         }
-        
+        //lastongroundtime > 0 - landing
 
         if (isJumping && playerRb.velocity.y < 0) isJumping = false;
         
@@ -184,6 +218,7 @@ public class PlayerMovement : MonoBehaviour
             isJumping = true;
             isJumpCut = false;
             isOnGround = false;
+            playerAnimator.SetBool("IsOnGround", false);
             wasOnJump = true;
             
         }
@@ -218,11 +253,19 @@ public class PlayerMovement : MonoBehaviour
         float accelRate;
         float movement;
         
+        if(dir.x == 0){
+            playerAnimator.SetBool("IsWalk", false);
+        }
+        else{
+            playerAnimator.SetBool("IsWalk", true);
+        }
 
         if(!isOnSlope && isOnGround)
         {
-            playerRb.constraints = RigidbodyConstraints2D.None;
-            playerRb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            if(gameManager.IsIngame()){
+                playerRb.constraints = RigidbodyConstraints2D.None;
+                playerRb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            }
             targetSpeed = dir.x * moveSpeed;
             speedDif = targetSpeed - playerRb.velocity.x;
             accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? accelerate : decelerate;
@@ -233,12 +276,15 @@ public class PlayerMovement : MonoBehaviour
         }
         else if(isOnSlope && isOnGround)
         {
-            if(dir.x == 0){
-                playerRb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-            }
-            else{
-                playerRb.constraints = RigidbodyConstraints2D.None;
-                playerRb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            
+            if(gameManager.IsIngame()){
+                if(dir.x == 0){
+                    playerRb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+                }
+                else{
+                    playerRb.constraints = RigidbodyConstraints2D.None;
+                    playerRb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                }
             }
             Vector2 newVelocitySlope = new Vector2(-dir.x * moveSpeed * slopeNormalPerpendicular.x, moveSpeed * slopeNormalPerpendicular.y * -dir.x);
   
@@ -247,8 +293,11 @@ public class PlayerMovement : MonoBehaviour
         }
         else if(!isOnGround)
         {
-            playerRb.constraints = RigidbodyConstraints2D.None;
-            playerRb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            if(gameManager.IsIngame()){
+                playerRb.constraints = RigidbodyConstraints2D.None;
+                playerRb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            }
+            
             targetSpeed = dir.x * moveSpeed;
             speedDif = targetSpeed - playerRb.velocity.x;
             accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? accelerate : decelerate;
@@ -342,6 +391,30 @@ public class PlayerMovement : MonoBehaviour
         if (pos.y < -0.02f)
             moveCamera.Down();
 
+    }
+
+    public void PausePlayer(bool isPause){
+        if(isPause){
+            SaveVelocityPause = playerRb.velocity;
+            playerRb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+        else{
+            if(isOnSlope){
+                if(dir.x == 0){
+                    playerRb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+                }
+                else{
+                    playerRb.constraints = RigidbodyConstraints2D.None;
+                    playerRb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                }
+            }
+            else{
+                playerRb.constraints = RigidbodyConstraints2D.None;
+                playerRb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            }
+            
+            playerRb.velocity = SaveVelocityPause;
+        }
     }
     #endregion
 }

@@ -61,6 +61,10 @@ public class InteractObject : MonoBehaviour
 
     private PlayerLight playerLight;
 
+
+    //khusus siapapun yg kehubung ke obstacle puzzle dn bisa dipake terus~
+    private bool isObstacleMoving; // ini tu sebenernya buat tandain kalo obstacle lg gerak ya gabisa di interact dl takutnya error kalo obstacle lg ke bawah eh diinteract balik eh hrs balik ke atas ntr malah error
+
     
     private void Awake() {
         popUp = gameObject.transform.GetChild(0).gameObject;
@@ -97,13 +101,17 @@ public class InteractObject : MonoBehaviour
     private void Start() {
         gameManager = TheGameManager.Instance;
         popUp.gameObject.SetActive(false);
+        isObstacleMoving = false;
     }
     private void Update() {
         
         if(isInRange && gameManager.IsIngame()){
             if(GetInputInteract()){
                 if(canInteractManyTimes){
-                    InteractFunction();
+                    if(!isObstacleMoving){
+                        InteractFunction();
+                    }
+                    
                 }
                 else{
                     if(!alreadyInteract){
@@ -118,6 +126,7 @@ public class InteractObject : MonoBehaviour
     }
 
     private void InteractFunction(){
+        alreadyInteract = true;
         if(interactObjectType == InteracTObjectType.Lever)
         {
             LeverClass.Interact(lever);
@@ -161,7 +170,15 @@ public class InteractObject : MonoBehaviour
                         }
                     }
                     else{
-                        popUp.gameObject.SetActive(true);
+                        if(interactObjectType == InteracTObjectType.Lever){
+                            if(!isObstacleMoving){
+                                popUp.gameObject.SetActive(true);
+                            }
+                        }
+                        else{
+                            popUp.gameObject.SetActive(true);
+                        }
+                        
                     }
                     
                 }
@@ -190,10 +207,23 @@ public class InteractObject : MonoBehaviour
     public Interact_Lever GetInteract_Lever(){
         return lever;
     }
-    // public Interact_Beacon GetInteract_Beacon(){
-    //     return beacon;
-    // }
-    // public Interact_KeyGate GetInteract_KeyGate(){
-    //     return keyGate;
-    // }
+
+    public void changeIsMoving(bool change){
+        isObstacleMoving = change;
+        //jd pas ini dimasukkin yang change = false abis dijalanin animasi gerak itu dan trnyata gabisa diinteract lg levernya ya si popup gabakal berubah jadi true
+        if(canInteractManyTimes){
+            popUp.gameObject.SetActive(!change);
+        }
+        
+    }
+    public bool GetCanInteractManyTimes(){
+        return canInteractManyTimes;
+    }
+
+    public void CannotInteractManyTimes(){
+        //function ini khusus yg tdnya infinite dan gapunya syarat utk matiin dirinya jd bisa matiin dirinya, misal lever bisa digerakkin infinite sebelum berhasil solve puzzle, pas puzzle ud solve nah brarti ini dinyalakan functionnya
+        if(canInteractManyTimes){
+            canInteractManyTimes = false;
+        }
+    }
 }

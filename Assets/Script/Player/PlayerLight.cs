@@ -155,7 +155,7 @@ public class PlayerLight : MonoBehaviour
             if(lightFireSize < 0)
             {
                 restartFireSize(0f);
-
+                gameManager.DeadState();
             }
         }
         

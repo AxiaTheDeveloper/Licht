@@ -7,6 +7,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1367522858747679747, guid: 176829784cc660e44a74d564bea73e20, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9848078
+      objectReference: {fileID: 0}
+    - target: {fileID: 1367522858747679747, guid: 176829784cc660e44a74d564bea73e20, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.17364816
+      objectReference: {fileID: 0}
+    - target: {fileID: 1367522858747679747, guid: 176829784cc660e44a74d564bea73e20, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 4697539279538611668, guid: 176829784cc660e44a74d564bea73e20, type: 3}
       propertyPath: m_Name
       value: InteractObject_Lever
@@ -128,3 +140,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1c4ac21cac232548b46046f3aa15ea9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leverOn: 0
+  leverAnimator: {fileID: 5621661772244131247}
+--- !u!1 &5838759428581700086 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4220453238741316643, guid: 176829784cc660e44a74d564bea73e20, type: 3}
+  m_PrefabInstance: {fileID: 7752242108798436821}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &5621661772244131247
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5838759428581700086}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b59b2b3d5a971e741bb8d0f51578356b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6092121137708754338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5838759428581700086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16850a5a0a7dec649aa4d9921f852389, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lever: {fileID: 7089699216894730919}

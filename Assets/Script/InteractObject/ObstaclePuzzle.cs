@@ -25,7 +25,12 @@ public class ObstaclePuzzle : MonoBehaviour
 
     [Header("Gate Open - Lever")]
     //well kalo misal emg nanti sapa tau pengen 2 lever ato lebi, lever dikasih bool buat dicek kek beacons, bs aja true false true gitukan, bikin bool list gitu buat jd checkernya, kalo ga sesuai leverOn = false, kalo sesuai br on, tp ya kalo mau
-    [SerializeField]private InteractObject lever;
+    [SerializeField]private List<Interact_Lever> levers;
+    [Tooltip("Sesuaiin ama byk lever")]
+    [SerializeField]private bool[] leverPuzzleAnswer;
+    [SerializeField]private bool isAnswerRight;
+    [SerializeField] private bool isPermanentSolve; // kalo true berarti kalo misal puzzle solve(gerak pertama, maka gabakal bisa digerakkin lg), ini jg khusus lever si
+    
 
 
 
@@ -36,21 +41,29 @@ public class ObstaclePuzzle : MonoBehaviour
 
 
     [Header("Puzzle - BlockingRoadMove")]
-    [SerializeField] private bool leverOn;
+    
+    [SerializeField] private List<InteractObject> interactObjects; // ini khusus utk lever aja ya, karena cuma lever doang yg bisa revert balik dirinya
+    [SerializeField] private bool atStart;
+    
     [SerializeField]private Vector3 obstaclePos_Start;
     [SerializeField]private Vector3 obstaclePos_End;
     [SerializeField]private float obstacle_Speed;
     [Header("Puzzle - Missing - Gausa dimasukkin Gapapa")]
+    [SerializeField]private bool isMissing;
     [SerializeField]private SpriteRenderer spriteRenderer;// dipake missing dan blocking road gone
     [SerializeField]private float colorChange_Speed;
     [Header("Puzzle - BlockingRoadGone - Gausa dimasukkin - Gapapa")]
     [SerializeField]private Collider2D obstacleCollider; // dipake missing dan blocking road gone
     //mungkin playeranimator di sini kalo perlu
+
+
+    //lever bisa solve semua, tp yg trakhir isPermanence hrs dinyalain
+    // yg lain jg bs solve semua 
     
     private void Awake() {
         if(gateOpenType == GateOpenType.Lever){
-            obstaclePos_Start = transform.position;
-            leverOn = false;
+            
+            isAnswerRight = false;
         }
         if(puzzleType == PuzzleType.Missing || puzzleType == PuzzleType.BlockingRoadGone){
             if(!obstacleCollider){
@@ -59,17 +72,19 @@ public class ObstaclePuzzle : MonoBehaviour
             if(!spriteRenderer){
                 spriteRenderer = gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
             }   
-            
-            
-
-            //ato ini bisa tinggal lsg diganti di inspector
-
-            // if(puzzleType == PuzzleType.Missing){
-            //     obstacleCollider.enabled = false;
-            //     spriteRenderer.color = new Color(1f, 1f, 1f, 0f);
-            // }
+            if(puzzleType == PuzzleType.Missing){
+                isMissing = true;
+            }
         }
-        
+        if(puzzleType == PuzzleType.BlockingRoadMove){
+            obstaclePos_Start = transform.position;
+            atStart = true;
+        }
+        if(gateOpenType == GateOpenType.Lever){
+            foreach(Interact_Lever lever in levers){
+                interactObjects.Add(lever.gameObject.GetComponent<InteractObject>());
+            }
+        }
         
     }
     private void Start() {
@@ -80,7 +95,11 @@ public class ObstaclePuzzle : MonoBehaviour
             }
         }
         if(gateOpenType == GateOpenType.Lever){
-            lever.GetInteract_Lever().OnUsedLever += lever_OnUsedLever;
+            foreach(Interact_Lever lever in levers)
+            {
+                lever.OnUsedLever += lever_OnUsedLever;
+            }
+            
         }
 
         gameManager = TheGameManager.Instance;
@@ -88,8 +107,16 @@ public class ObstaclePuzzle : MonoBehaviour
 
     private void lever_OnUsedLever(object sender, EventArgs e)
     {
-        //kalo mo kek 3 lever pake cr bawah
+        bool allSame = true;
+        for(int i=0;i<levers.Count;i++){
+            if(leverPuzzleAnswer[i] != levers[i].GetLeverOn()){
+                allSame = false;
+                break;
+            }
+        }
+        isAnswerRight = allSame;
         SolvedPuzzle();
+        
     }
 
     private void beacon_OnBeaconLitUp(object sender, EventArgs e)
@@ -119,25 +146,131 @@ public class ObstaclePuzzle : MonoBehaviour
         
     }
 
+    private void Do_CanInteractManyTimes(){
+        foreach(InteractObject interactObject in interactObjects){
+            if(interactObject.GetCanInteractManyTimes()){
+                interactObject.changeIsMoving(false);
+            } 
+        }
+        
+        
+    }
+
+    private void Do_CanInteractManyTimes_ForMissing(){
+        obstacleCollider.enabled = true;
+        Do_CanInteractManyTimes();
+
+    }
+
     private void SolvedPuzzle(){
         if(puzzleType == PuzzleType.BlockingRoadMove)
         {   
-            if(!leverOn)
+            if(atStart)
             {
-                LeanTween.move(gameObject, obstaclePos_End, obstacle_Speed);
+                if(gateOpenType == GateOpenType.Lever){
+                    if(isAnswerRight){
+                        atStart = !atStart;
+                        foreach(InteractObject interactObject in interactObjects){
+                            if(interactObject.GetCanInteractManyTimes()){
+                                interactObject.changeIsMoving(true);
+                            } 
+                            if(isPermanentSolve){
+                                interactObject.CannotInteractManyTimes();
+                            }
+                        }
+                        LeanTween.move(gameObject, obstaclePos_End, obstacle_Speed).setOnComplete(
+                            ()=> Do_CanInteractManyTimes()
+                        );
+                        
+                    }
+                }
+                else{
+                    atStart = !atStart;
+                    LeanTween.move(gameObject, obstaclePos_End, obstacle_Speed);
+                    
+                }
+                
             }
             else
             {
-                LeanTween.move(gameObject, obstaclePos_Start, obstacle_Speed);
+                if(gateOpenType == GateOpenType.Lever){
+                    if(!isAnswerRight){
+                        atStart = !atStart;
+                        foreach(InteractObject interactObject in interactObjects){
+                            if(interactObject.GetCanInteractManyTimes()){
+                                interactObject.changeIsMoving(true);
+                            } 
+                        }
+                        LeanTween.move(gameObject, obstaclePos_Start, obstacle_Speed).setOnComplete(
+                            ()=> Do_CanInteractManyTimes()
+                        );
+                        
+                    }
+                }
+                else{
+                    atStart = !atStart;
+                    LeanTween.move(gameObject, obstaclePos_Start, obstacle_Speed);
+                    
+                }
+                
             }
-            leverOn = !leverOn;
+            
             
         }
         else if(puzzleType == PuzzleType.Missing)
         {
-            LeanTween.color(spriteRenderer.gameObject, new Color(1f, 1f, 1f, 1f), colorChange_Speed).setEase(LeanTweenType.easeOutQuad).setOnComplete(
-                ()=> obstacleCollider.enabled = true
-            );
+            if(isMissing){
+                if(gateOpenType == GateOpenType.Lever){
+                    if(isAnswerRight){
+                        isMissing = !isMissing;
+                        foreach(InteractObject interactObject in interactObjects){
+                            if(interactObject.GetCanInteractManyTimes()){
+                                interactObject.changeIsMoving(true);
+                            } 
+                            if(isPermanentSolve){
+                                interactObject.CannotInteractManyTimes();
+                            }
+                        }
+                        LeanTween.color(spriteRenderer.gameObject, new Color(1f, 1f, 1f, 1f), colorChange_Speed).setEase(LeanTweenType.easeOutQuad).setOnComplete(
+                            ()=> Do_CanInteractManyTimes_ForMissing()
+                        );
+                    }
+                }
+                else{
+                    isMissing = !isMissing;
+                    LeanTween.color(spriteRenderer.gameObject, new Color(1f, 1f, 1f, 1f), colorChange_Speed).setEase(LeanTweenType.easeOutQuad).setOnComplete(
+                        ()=> obstacleCollider.enabled = true
+                    );
+                    
+                }
+                
+            }
+            else{
+                if(gateOpenType == GateOpenType.Lever){
+                    if(!isAnswerRight){
+                        isMissing = !isMissing;
+                        foreach(InteractObject interactObject in interactObjects){
+                            if(interactObject.GetCanInteractManyTimes()){
+                                interactObject.changeIsMoving(true);
+                            } 
+                        }
+                        obstacleCollider.enabled = false;
+                        LeanTween.color(spriteRenderer.gameObject, new Color(1f, 1f, 1f, 0f), colorChange_Speed).setEase(LeanTweenType.easeOutQuad).setOnComplete(
+                            ()=> Do_CanInteractManyTimes()
+                        );
+                        
+                    }
+                }
+                else{
+                    isMissing = !isMissing;
+                    obstacleCollider.enabled = false;
+                    LeanTween.color(spriteRenderer.gameObject, new Color(1f, 1f, 1f, 0f), colorChange_Speed).setEase(LeanTweenType.easeOutQuad);
+                    
+                }
+                
+            }
+            
+            
         }
         else if(puzzleType == PuzzleType.BlockingRoadGone)
         {
@@ -147,6 +280,7 @@ public class ObstaclePuzzle : MonoBehaviour
 
         }
     }
+
 
 
 }
