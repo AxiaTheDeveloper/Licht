@@ -487,6 +487,10 @@ public class PlayerMovement : MonoBehaviour
         else gameManager.SetEnvironment("normal");
             
     }
+    public void PlayDeathAnimation(){
+        // playerRb.constraints = RigidbodyConstraints2D.FreezeAll;
+        playerAnimator.SetTrigger("Death");
+    }
 
     #endregion
 }
