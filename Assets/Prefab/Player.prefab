@@ -598,8 +598,8 @@ MonoBehaviour:
   lightFireStartSize: 12
   dyingTime_IdleNormal: 0.01
   dyingTime_MoveNormal: 0.1
-  dyingTime_IdleWindy: 0.2
-  dyingTime_MoveWindy: 0.3
+  dyingTime_IdleWindy: 0.1
+  dyingTime_MoveWindy: 0.2
   colliderLight: {fileID: 5868162036869831608}
   LightSizeDifferenceWithCollider: 0.45
 --- !u!114 &5868162038120987929
