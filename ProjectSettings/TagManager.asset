@@ -55,9 +55,12 @@ TagManager:
   - name: Ground
     uniqueID: 33718471
     locked: 0
-  - name: PopUp
-    uniqueID: 379368899
-    locked: 0
   - name: Player
     uniqueID: 1094254525
+    locked: 0
+  - name: InFrontPlayer
+    uniqueID: 2077121311
+    locked: 0
+  - name: PopUp
+    uniqueID: 379368899
     locked: 0

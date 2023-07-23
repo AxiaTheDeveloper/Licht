@@ -154,9 +154,9 @@ public class InteractObject : MonoBehaviour
         if(other.gameObject.CompareTag(compareTagCollider))
         {
             if(interactObjectType == InteracTObjectType.KeyGate){
-                if(gameManager.IsIngame() && !keyGate.GetHasInteract()){
-                    PlayerInteract playerInteract = other.GetComponentInParent<PlayerInteract>();
-                    playerInteract.AddKey();
+                PlayerInteract playerInteract = other.GetComponentInParent<PlayerInteract>();
+                if(gameManager.IsIngame() && !keyGate.GetHasInteract() && !playerInteract.GetHasKey()){
+                    playerInteract.AddKey(keyGate);
                     KeyGateClass.Interact(keyGate, playerInteract);
                 }
             }

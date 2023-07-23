@@ -105,6 +105,8 @@ public class PlayerMovement : MonoBehaviour
 
         if(gameManager.IsIngame()){
             x = GetHorizontalInput();
+            CheckEdgeCamera();
+            PlayDustEffect();
         }
         else{
             x = 0;
@@ -127,8 +129,7 @@ public class PlayerMovement : MonoBehaviour
         }
         PlayerJump();
         PlayerRotation();
-        CheckEdgeCamera();
-        PlayDustEffect();
+        
     }
 
     void FixedUpdate()
@@ -310,6 +311,7 @@ public class PlayerMovement : MonoBehaviour
             Vector2 newVelocitySlope = new Vector2(-dir.x * moveSpeed * slopeNormalPerpendicular.x, moveSpeed * slopeNormalPerpendicular.y * -dir.x);
   
             playerRb.velocity = newVelocitySlope;
+
             
         }
         else if(!isOnGround)
@@ -347,7 +349,7 @@ public class PlayerMovement : MonoBehaviour
             isOnSlope = false;
         }
         else if(isOnGround){
-            SlopeCheckHorizontal(checkPos_Middle);
+            // SlopeCheckHorizontal(checkPos_Middle);
             SlopeCheckVertical(checkPos_Middle);
         }
     }
@@ -362,14 +364,16 @@ public class PlayerMovement : MonoBehaviour
             isOnSlope = true;
             wasOnJump = false;
             slopeSideAngle = Vector2.Angle(hitObjectFront.normal, Vector2.up);
-            // Debug.DrawRay(hitObjectFront.point, hitObjectFront.normal, Color.red);
+            Debug.DrawRay(hitObjectFront.point, hitObjectFront.normal, Color.red);
+            Debug.Log(hitObjectFront.transform + "object front");
         }
         else if(hitObjectBack)
         {
             isOnSlope = true;
             wasOnJump = false;
             slopeSideAngle = Vector2.Angle(hitObjectBack.normal, Vector2.up);
-            // Debug.DrawRay(hitObjectBack.point, hitObjectBack.normal, Color.blue);
+            Debug.DrawRay(hitObjectBack.point, hitObjectBack.normal, Color.blue);
+            Debug.Log(hitObjectBack.transform + "object beck");
         }
         else
         {
@@ -386,16 +390,26 @@ public class PlayerMovement : MonoBehaviour
         {
             slopeNormalPerpendicular = Vector2.Perpendicular(hitObject.normal).normalized;
             slopeDownAngle = Vector2.Angle(hitObject.normal, Vector2.up);
-
             if(slopeDownAngle != slopeDownAngleLast)
             {
-                isOnSlope = true;
+                if(slopeDownAngle == 0){
+                    isOnSlope = false;
+                    playerRb.velocity = new Vector2(playerRb.velocity.x, 0f);
+                }
+                else{
+                    isOnSlope = true;
+                
+                }
                 wasOnJump = false;
+                Debug.Log (slopeDownAngle + " angelnya" + slopeDownAngleLast);
             }
+            
             slopeDownAngleLast = slopeDownAngle;
 
+            
+
             Debug.DrawRay(hitObject.point, hitObject.normal, Color.green);
-            Debug.DrawRay(hitObject.point, slopeNormalPerpendicular, Color.green);
+            Debug.DrawRay(hitObject.point, slopeNormalPerpendicular, Color.blue);
         }
     }
     private void CheckEdgeCamera()
@@ -441,7 +455,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playerRb.velocity.x > 0 && GetHorizontalInput() != 0 && !dustIsRunning && isOnGround)
         {
-            Debug.Log("Running");
+// /           Debug.Log("Running");
             dustIsRunning = true;
             dustPSpawner.SummonDustTrail(playerRb.transform.position, GetHorizontalInput());
         }

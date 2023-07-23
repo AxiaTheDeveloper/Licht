@@ -15,6 +15,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstaclePuzzle_BlockingRoadGone
       objectReference: {fileID: 0}
+    - target: {fileID: 2946425610721933877, guid: 4d58291c4c62eef4ab76a2bff3a8f749, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5484155944057262336, guid: 4d58291c4c62eef4ab76a2bff3a8f749, type: 3}
       propertyPath: m_RootOrder
       value: 0

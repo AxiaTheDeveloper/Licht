@@ -20,7 +20,8 @@ public class ObstaclePuzzle : MonoBehaviour
 
     //ga mungkin gateopentype key bs missing puzzle type
     
-    
+    [Header("Gate Open - Key, keyid sesuaiin ama key yg mo disamain")]
+    [SerializeField]private int keyID;
     
 
     [Header("Gate Open - Lever")]
@@ -79,14 +80,26 @@ public class ObstaclePuzzle : MonoBehaviour
         }
         if(puzzleType == PuzzleType.BlockingRoadMove){
             if(isTwoGate){
-                obstaclePos_Start_1 = Gate1.transform.localPosition;
-                obstaclePos_Start_2 = Gate2.transform.localPosition;
+                if(atStart){
+                    obstaclePos_Start_1 = Gate1.transform.localPosition;
+                    obstaclePos_Start_2 = Gate2.transform.localPosition;
+                }
+                else{
+                    obstaclePos_End_1 = Gate1.transform.localPosition;
+                    obstaclePos_End_2 = Gate2.transform.localPosition;
+                }
+                
                 
             }
             else{
-                obstaclePos_Start_1 = Gate1.transform.localPosition;
+                if(atStart){
+                    obstaclePos_Start_1 = Gate1.transform.localPosition;
+                }
+                else{
+                    obstaclePos_End_1 = Gate1.transform.localPosition;
+                }
+                
             }
-            atStart = true;
             
         }
         if(gateOpenType == GateOpenType.Lever){
@@ -147,8 +160,11 @@ public class ObstaclePuzzle : MonoBehaviour
             if(other.gameObject.CompareTag("Player")){
                 PlayerInteract player = other.gameObject.GetComponent<PlayerInteract>();
                 if(player.GetHasKey() && gameManager.IsIngame()){
-                    player.UseKey();
-                    SolvedPuzzle();
+                    if(keyID == player.GetKey().GetKeyID()){
+                        player.UseKey();
+                        SolvedPuzzle();
+                    }
+                    
                 }
             }
         }
@@ -245,6 +261,7 @@ public class ObstaclePuzzle : MonoBehaviour
                 if(gateOpenType == GateOpenType.Lever){
                     if(!isAnswerRight){
                         atStart = !atStart;
+                        gameObject.GetComponent<Collider2D>().enabled = true;
                         foreach(InteractObject interactObject in interactObjects){
                             if(interactObject.GetCanInteractManyTimes()){
                                 interactObject.changeIsMoving(true);
@@ -268,6 +285,7 @@ public class ObstaclePuzzle : MonoBehaviour
                 }
                 else{
                     atStart = !atStart;
+                    gameObject.GetComponent<Collider2D>().enabled = true;
                     if(isTwoGate){
                         Gate1.GetComponent<Collider2D>().enabled = true;
                         Gate2.GetComponent<Collider2D>().enabled = true;

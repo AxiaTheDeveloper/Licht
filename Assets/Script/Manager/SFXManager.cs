@@ -14,7 +14,7 @@ public class SFXManager : MonoBehaviour
 
     private void Start() {
         volume = PlayerPrefs.GetFloat(PLAYER_PREF_SFX_VOLUME, 0.3f);
-        // UpdateAllVolume();
+        UpdateAllVolume();
     }
     private void Update() {
         InputChangeVolume();
@@ -31,7 +31,7 @@ public class SFXManager : MonoBehaviour
     public void UpdateBGM_Volume(float upVolume){
         if(volume < 1 && upVolume == 0.1f){
             volume += upVolume;
-            // UpdateAllVolume();
+            UpdateAllVolume();
             PlayerPrefs.SetFloat(PLAYER_PREF_SFX_VOLUME, volume);
         }
         else if(volume >= 0.1f && upVolume == -0.1f){
@@ -39,7 +39,7 @@ public class SFXManager : MonoBehaviour
             if(volume < 0.1f){
                 volume = 0;
             }
-            // UpdateAllVolume();
+            UpdateAllVolume();
             PlayerPrefs.SetFloat(PLAYER_PREF_SFX_VOLUME, volume);
         }
         

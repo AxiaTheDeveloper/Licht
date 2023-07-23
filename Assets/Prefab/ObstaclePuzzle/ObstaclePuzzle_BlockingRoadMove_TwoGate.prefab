@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8515101241120459693}
   - component: {fileID: 7228326927580673764}
   - component: {fileID: 4462402368893285180}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gate2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 33718471
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 1481385520, guid: 5e62f42d4dca9c947a5df7e8ac70773a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 375768074668947304}
   - component: {fileID: 5529891118048212934}
   - component: {fileID: 7720679941643440123}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gate1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 33718471
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: -1725005109, guid: 5e62f42d4dca9c947a5df7e8ac70773a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -287,7 +287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4336250871947439501, guid: a932798c39005314db8f988e008e3bb9, type: 3}
       propertyPath: obstaclePos_End_1.y
-      value: -1.5
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4336250871947439501, guid: a932798c39005314db8f988e008e3bb9, type: 3}
       propertyPath: obstaclePos_End_2.y
@@ -296,6 +296,10 @@ PrefabInstance:
     - target: {fileID: 8649558270455854118, guid: a932798c39005314db8f988e008e3bb9, type: 3}
       propertyPath: m_Name
       value: ObstaclePuzzle_BlockingRoadMove_TwoGate
+      objectReference: {fileID: 0}
+    - target: {fileID: 8649558270455854118, guid: a932798c39005314db8f988e008e3bb9, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7392197556794295796, guid: a932798c39005314db8f988e008e3bb9, type: 3}

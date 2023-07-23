@@ -11,6 +11,8 @@ public class Interact_KeyGate : MonoBehaviour
     [SerializeField]private float wasMoveDuration, moveDelay;
 
     private bool wasMove;
+
+    [SerializeField]private int keyID;
     private void Awake() {
         hasInteracted = false;
         wasMove = false;
@@ -20,6 +22,9 @@ public class Interact_KeyGate : MonoBehaviour
         player = playerSet;
         keyPositionPlayer = player.GetPlayerPositionKey();
         hasInteracted = true;
+    }
+    public int GetKeyID(){
+        return keyID;
     }
     private void Update() {
         if(player){

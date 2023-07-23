@@ -103,6 +103,22 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4875104867814186487, guid: 176829784cc660e44a74d564bea73e20, type: 3}
+      propertyPath: m_SortingLayer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4875104867814186487, guid: 176829784cc660e44a74d564bea73e20, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4875104867814186487, guid: 176829784cc660e44a74d564bea73e20, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1094254525
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016519753471195768, guid: 176829784cc660e44a74d564bea73e20, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 176829784cc660e44a74d564bea73e20, type: 3}
 --- !u!1 &7044706657315944955 stripped
@@ -151,3 +167,4 @@ MonoBehaviour:
   keyMoveSpeed: 2
   wasMoveDuration: 0
   moveDelay: 0
+  keyID: 0

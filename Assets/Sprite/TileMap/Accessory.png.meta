@@ -312,8 +312,8 @@ TextureImporter:
       name: Accessory_8
       rect:
         serializedVersion: 2
-        x: 8
-        y: 8
+        x: 16
+        y: 0
         width: 8
         height: 8
       alignment: 0

@@ -89,7 +89,20 @@ public class PlayerLight : MonoBehaviour
             collideSize = lightFireSize - LightSizeDifferenceWithCollider;
         }
         else{
-            collideSize = 0;
+            float lightSizeDifference = LightSizeDifferenceWithCollider;
+            bool canMinus = false;
+            while(lightSizeDifference > 1 && !canMinus){
+                lightSizeDifference -= 1;
+                if(lightFireSize - lightSizeDifference > 0){
+                    canMinus = true;
+                    collideSize = lightFireSize - lightSizeDifference;
+                    break;
+                }
+            }
+            if(!canMinus){
+                collideSize = 0;
+            }   
+            
         }
         colliderLight.radius = collideSize;
     }

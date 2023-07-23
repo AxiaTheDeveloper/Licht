@@ -12,6 +12,7 @@ public class PlayerInteract : MonoBehaviour
     //kalo semua kunci sama dan bisadobel ? kita pake counter ae, kalo ga pake bool, buat ngecek ke pintu, trus kalo pintu is locked dan trnyata player masuk triggernya dn punya kunci dia lsg ambil kuncinya dan unlock pintu ~
 
     private bool isPlayerMove;
+    private Interact_KeyGate keyGate;
     private void Awake() {
         // playerPosNow = GetComponent<Transform>();
         playerMovement = GetComponent<PlayerMovement>();
@@ -20,39 +21,6 @@ public class PlayerInteract : MonoBehaviour
     private void Start() {
         hasKey = false;
         hasUseKey = false;
-    }
-    private void Update() {
-        // if(playerPosNow.position == playerPositionLast)
-        //     {
-        //         isPlayerMove = false;
-                
-        //     }
-        // else if(playerPosNow.position != playerPositionLast)
-        // {
-        //     if(playerPositionLast.y == playerPosNow.position.y && playerPositionLast.x != playerPosNow.position.x)
-        //     {
-        //         if(playerMovement.GetDirX() == 0)
-        //         {
-        //             isPlayerMove = false;
-        //         }
-        //         else{
-        //             isPlayerMove = true;
-                            
-        //         }
-                        
-        //     }
-        //     else if(playerPositionLast.y != playerPosNow.position.y && playerPositionLast.x == playerPosNow.position.x)
-        //     {
-        //         isPlayerMove = true;
-        //     }
-        //     else if(playerPositionLast.y != playerPosNow.position.y && playerPositionLast.x != playerPosNow.position.x)
-        //     {
-        //         isPlayerMove = true;
-        //     }
-            
-        //     playerPositionLast = playerPosNow.position;   
-        // }
-
     }
 
     public bool GetIsPlayerMove(){
@@ -64,15 +32,18 @@ public class PlayerInteract : MonoBehaviour
     public Transform GetPlayerPositionKey(){
         return keyPosition;
     }
-    public void AddKey(){
+    public void AddKey(Interact_KeyGate newKey){
         hasKey = true;
         hasUseKey = false;
+        keyGate = newKey;
     }
+    //cuma bisa ama 1 kunci aja
 
     //ini function yg dipake pintu kalo gethaskey = true dan collider ngecollide dgn pintu
     public void UseKey(){
         hasKey = false;
         hasUseKey = true;
+        keyGate = null;
     }
 
     public bool GetHasKey(){
@@ -80,5 +51,8 @@ public class PlayerInteract : MonoBehaviour
     }
     public bool GetHasUseKey(){
         return hasUseKey;// kalo si key ada konek ke player dan playerhasusekey == true, maka key hancurin dirinya
+    }
+    public Interact_KeyGate GetKey(){
+        return keyGate;
     }
 }
