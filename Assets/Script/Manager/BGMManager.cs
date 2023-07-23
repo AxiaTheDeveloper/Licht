@@ -22,7 +22,7 @@ public class BGMManager : MonoBehaviour
 
     private void Start() {
         volume = PlayerPrefs.GetFloat(PLAYER_PREF_BGM_VOLUME, 0.3f);
-        // BGM.volume = volume;
+        BGM.volume = volume;
     }
     private void Update() {
         InputChangeVolume();
@@ -42,7 +42,7 @@ public class BGMManager : MonoBehaviour
     public void UpdateBGM_Volume(float upVolume){
         if(volume < 1 && upVolume == 0.1f){
             volume += upVolume;
-            // BGM.volume = volume;
+            BGM.volume = volume;
             PlayerPrefs.SetFloat(PLAYER_PREF_BGM_VOLUME, volume);
         }
         else if(volume >= 0.1f && upVolume == -0.1f){
@@ -50,7 +50,7 @@ public class BGMManager : MonoBehaviour
             if(volume < 0.1f){
                 volume = 0;
             }
-            // BGM.volume = volume;
+            BGM.volume = volume;
             PlayerPrefs.SetFloat(PLAYER_PREF_BGM_VOLUME, volume);
         }
         
