@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class TheGameManager : MonoBehaviour
 {
     public static TheGameManager Instance{get; private set;}
     public enum gameState{
-        cinematic, inGame, Pause, Finish, Dead
+        cinematic, inGame, Pause, Finish, Dead, Credit
     }
     [SerializeField]private gameState state;
     
@@ -28,6 +29,7 @@ public class TheGameManager : MonoBehaviour
     [SerializeField]private float ExitCounterMax;
     private float exitCounter;
     private bool isInputPauseInGame;
+    [SerializeField]private CreditUI credit;
 
     private void Awake() {
         Instance = this;
@@ -98,10 +100,10 @@ public class TheGameManager : MonoBehaviour
 
     }
     private bool GetInputDownPause(){
-        return Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape);
+        return Input.GetKeyDown(KeyCode.Escape);
     }
     private bool GetInputUpPause(){
-        return Input.GetKeyUp(KeyCode.P) || Input.GetKeyUp(KeyCode.Escape);
+        return Input.GetKeyUp(KeyCode.Escape);
     }
 
     public void ChangeToInGame(){
@@ -123,14 +125,17 @@ public class TheGameManager : MonoBehaviour
 
     public void FinishGame(){
         
-        if(environment != gameEnvironment.windy){ // intinya kalo bukan last scene
+        if(SceneManager.GetActiveScene().name != "Level2"){ // intinya kalo bukan last scene
             fadeBG.ShowUINextScene();
             state = gameState.Finish;
         }
         else{
             state = gameState.cinematic;
-            Debug.Log("win");
+            TimelineManager.Instance.Start_Ending();
         }
+    }
+    public void ChangeToCredit(){
+        state = gameState.Credit;
     }
 
     public void DeadState(){

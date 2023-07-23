@@ -7,13 +7,14 @@ public class UIFadeBG : MonoBehaviour
 {
     [SerializeField]private RectTransform fadeBG;
     [SerializeField]private CreditUI creditUI;
+    [SerializeField]private float hideUISpeed = 2f;
     private void Awake() {
         fadeBG = GetComponent<RectTransform>();
         HideUI();
     }
 
     private void HideUI(){
-        LeanTween.alpha(fadeBG, 0f, 2f);
+        LeanTween.alpha(fadeBG, 0f, hideUISpeed);
     }
     public void ShowUIDead(){
         LeanTween.alpha(fadeBG, 1f, 2f).setOnComplete(
@@ -26,13 +27,13 @@ public class UIFadeBG : MonoBehaviour
             ()=> ChooseNextScene()
         );
     }
-    public void ShowUIRestart(){
+    public void ShowUIRestart(TimerPlayer timer){
         LeanTween.alpha(fadeBG, 1f, 2f).setOnComplete(
-            ()=> Restart() // ini ganti ke nama first scene entar
+            ()=> Restart(timer) // ini ganti ke nama first scene entar
         );
     }
-    private void Restart(){
-        
+    private void Restart(TimerPlayer timer){
+        timer.RestartTimer();
         SceneManager.LoadScene("Level1");
     }
 

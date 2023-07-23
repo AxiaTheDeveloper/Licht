@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -119,7 +120,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(gameManager.IsIngame()){
             x = GetHorizontalInput();
-            CheckEdgeCamera();
+            
             PlayDustEffect();
         }
         else{
@@ -144,6 +145,15 @@ public class PlayerMovement : MonoBehaviour
         PlayerJump();
         PlayerRotation();
         CheckWindyEnvironment();
+        
+        if(SceneManager.GetActiveScene().name == "Level1"){
+            if(gameManager.IsIngame()){
+                CheckEdgeCamera();
+            }
+        }
+        else{
+            CheckEdgeCamera();
+        }
     }
 
     void FixedUpdate()
@@ -153,6 +163,9 @@ public class PlayerMovement : MonoBehaviour
     }
 
     #region Methods
+    public bool GetIsOnGround(){
+        return isOnGround;
+    }
 
     public float GetDirX(){
         return dir.x;
@@ -486,6 +499,10 @@ public class PlayerMovement : MonoBehaviour
         if (Physics2D.OverlapBox(transform.position, new Vector2(1f, 1f), 0f, windyArea)) gameManager.SetEnvironment("windy");
         else gameManager.SetEnvironment("normal");
             
+    }
+    public void PlayDeathAnimation(){
+        // playerRb.constraints = RigidbodyConstraints2D.FreezeAll;
+        playerAnimator.SetTrigger("Death");
     }
 
     #endregion

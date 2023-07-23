@@ -8,6 +8,7 @@ public class SFXManager : MonoBehaviour
     private float volume;
     private const string PLAYER_PREF_SFX_VOLUME = "SFX_Volume";
     public static SFXManager Instance {get; private set;}
+    private float fadeDuration = 0.5f;
     private void Awake() {
         Instance = this;
     }
@@ -43,7 +44,19 @@ public class SFXManager : MonoBehaviour
             PlayerPrefs.SetFloat(PLAYER_PREF_SFX_VOLUME, volume);
         }
         
-        
+        if(!TheGameManager.Instance.IsIngame()){
+            if(walkSFX.isPlaying)walkSFX.Stop();
+            if(jumpSFX.isPlaying)jumpSFX.Stop();
+            if(useLeverSFX.isPlaying)useLeverSFX.Stop();
+            if(getKeySFX.isPlaying)getKeySFX.Stop();
+            if(lightBeaconSFX.isPlaying)lightBeaconSFX.Stop();
+            if(changeLightSourceSFX.isPlaying)changeLightSourceSFX.Stop();
+            if(openGateSFX.isPlaying)openGateSFX.Stop();
+            if(closeGateSFX.isPlaying)closeGateSFX.Stop();
+            if(openDoorKeySFX.isPlaying)openDoorKeySFX.Stop();
+            if(deadSFX.isPlaying)deadSFX.Stop();
+            if(windSFX.isPlaying)windSFX.Stop();
+        }
     }
 
     private void UpdateAllVolume(){
@@ -75,14 +88,40 @@ public class SFXManager : MonoBehaviour
         return walkSFX.isPlaying;
     }
 
-    public void PlaySFX_WindSFX(){ //ntr pas on player enter collider aja idk
+ public void PlaySFX_WindSFX(){ //ntr pas on player enter collider aja idk
+        StopCoroutine(StopSFXWind_Courotine());
+        StartCoroutine(PlaySFXWind_Courotine());
+        
+    }
+    private IEnumerator PlaySFXWind_Courotine(){
+        float elapsedTime = 0f;
+        float fadeVolume = 0;
+        windSFX.volume = 0f;
+
         windSFX.Play();
+        while(elapsedTime < fadeDuration){
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / fadeDuration);
+            windSFX.volume = Mathf.Lerp(fadeVolume, volume, t);
+            Debug.Log(windSFX.volume);
+            yield return null;
+        }
     }
     public void StopSFX_WindSFX(){
+        StopCoroutine(PlaySFXWind_Courotine());
         StartCoroutine(StopSFXWind_Courotine());
     }
     private IEnumerator StopSFXWind_Courotine(){
-        yield return new WaitForSeconds(0.05f);
+        float elapsedTime = 0f;
+        float fadeVolume = volume;
+
+        
+        while(elapsedTime < fadeDuration){
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / fadeDuration);
+            windSFX.volume = Mathf.Lerp(fadeVolume, 0, t);
+            yield return null;
+        }
         windSFX.Stop();
     }
     public bool isPlayedSFX_WindSFX(){

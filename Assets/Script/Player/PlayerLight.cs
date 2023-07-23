@@ -131,15 +131,21 @@ public class PlayerLight : MonoBehaviour
         if (gameManager.GetEnvironment() == TheGameManager.gameEnvironment.normal)
         {
             ChangeEnvironmentMode(Environment.normal);
-            sfxManager.StopSFX_WindSFX();
+            if(gameManager.IsIngame()){
+                sfxManager.StopSFX_WindSFX();
+            }
+            
             
         }
         else if (gameManager.GetEnvironment() == TheGameManager.gameEnvironment.windy)
         {
             ChangeEnvironmentMode(Environment.windy);
-            if(!sfxManager.isPlayedSFX_WindSFX()){
-                sfxManager.PlaySFX_WindSFX();
+            if(gameManager.IsIngame()){
+                if(!sfxManager.isPlayedSFX_WindSFX()){
+                    sfxManager.PlaySFX_WindSFX();
+                }
             }
+            
             
         }
         if (gameManager.IsIngame()){
