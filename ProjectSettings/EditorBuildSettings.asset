@@ -8,13 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: Assets/Scenes/ExampleSceme.unity
-    guid: 7127f35aef7f61b44ba661313d662169
-  - enabled: 0
-    path: Assets/Scenes/windy.unity
-    guid: accd438a328e3f14d912654177f87dca
   - enabled: 1
-    path: Assets/Scenes/Normal.unity
+    path: Assets/Scenes/Level1.unity
     guid: 9d8e9e890ccc6eb459474279d582e8cf
+  - enabled: 1
+    path: Assets/Scenes/Level2.unity
+    guid: 14fa366f3910f9f4da0c89805691fb09
   m_configObjects: {}

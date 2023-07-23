@@ -37,6 +37,7 @@ public class PlayerLight : MonoBehaviour
     private Vector3 playerPositionLast;
 
     private TheGameManager gameManager;
+    private SFXManager sfxManager;
     private PlayerMovement playerMovement;
 
     [SerializeField]private float LightSizeDifferenceWithCollider;
@@ -54,6 +55,7 @@ public class PlayerLight : MonoBehaviour
     private void Start() {
         tempLightFireSize = lightFireStartSize;
         gameManager = TheGameManager.Instance;
+        sfxManager = SFXManager.Instance;
 
         restartFireSize(lightFireStartSize);
     }
@@ -129,10 +131,16 @@ public class PlayerLight : MonoBehaviour
         if (gameManager.GetEnvironment() == TheGameManager.gameEnvironment.normal)
         {
             ChangeEnvironmentMode(Environment.normal);
+            sfxManager.StopSFX_WindSFX();
+            
         }
         else if (gameManager.GetEnvironment() == TheGameManager.gameEnvironment.windy)
         {
             ChangeEnvironmentMode(Environment.windy);
+            if(!sfxManager.isPlayedSFX_WindSFX()){
+                sfxManager.PlaySFX_WindSFX();
+            }
+            
         }
         if (gameManager.IsIngame()){
             //tny ini jdnya mo pastiinnya gmn mo intinya berubah posisi trmasuk gerak ato tidak etc etc

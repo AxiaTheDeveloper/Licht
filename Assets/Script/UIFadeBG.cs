@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class UIFadeBG : MonoBehaviour
 {
     [SerializeField]private RectTransform fadeBG;
+    [SerializeField]private CreditUI creditUI;
     private void Awake() {
         fadeBG = GetComponent<RectTransform>();
         HideUI();
@@ -25,6 +26,16 @@ public class UIFadeBG : MonoBehaviour
             ()=> ChooseNextScene()
         );
     }
+    public void ShowUIRestart(){
+        LeanTween.alpha(fadeBG, 1f, 2f).setOnComplete(
+            ()=> Restart() // ini ganti ke nama first scene entar
+        );
+    }
+    private void Restart(){
+        
+        SceneManager.LoadScene("Level1");
+    }
+
     private void ChooseNextScene(){
         TheGameManager gameManager = TheGameManager.Instance;
         if(SceneManager.GetActiveScene().name == "Level1"){

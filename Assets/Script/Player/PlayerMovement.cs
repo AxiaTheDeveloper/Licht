@@ -423,8 +423,8 @@ public class PlayerMovement : MonoBehaviour
 
             
 
-            // Debug.DrawRay(hitObject.point, hitObject.normal, Color.green);
-            // Debug.DrawRay(hitObject.point, slopeNormalPerpendicular, Color.blue);
+            Debug.DrawRay(hitObject.point, hitObject.normal, Color.green);
+            Debug.DrawRay(hitObject.point, slopeNormalPerpendicular, Color.blue);
         }
     }
     private void CheckEdgeCamera()

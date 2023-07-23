@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Interact_KeyGate : MonoBehaviour
 {
@@ -13,9 +14,18 @@ public class Interact_KeyGate : MonoBehaviour
     private bool wasMove;
 
     [SerializeField]private int keyID;
+
+    [SerializeField]private Light2D glow;
     private void Awake() {
         hasInteracted = false;
         wasMove = false;
+        glow.intensity = 0f;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.gameObject.CompareTag("ColliderLampu")){
+            glow.intensity = 1f;
+        }
     }
 
     public void GivePlayerInteract(PlayerInteract playerSet){
@@ -23,6 +33,7 @@ public class Interact_KeyGate : MonoBehaviour
         keyPositionPlayer = player.GetPlayerPositionKey();
         hasInteracted = true;
     }
+
     public int GetKeyID(){
         return keyID;
     }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2761251312401523038}
   - component: {fileID: 2875333446281968358}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gate2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 2096843699820032846}
   - component: {fileID: 4828935590799526217}
   - component: {fileID: 1366479038590216161}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Gate1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1673205478284200329}
   - component: {fileID: 2856678562449381425}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Visual_Penjaga_Bawah (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -290,7 +290,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2737501818875221355}
   - component: {fileID: 4484875127653689362}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Visual_Penjaga_Atas (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -371,6 +371,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1814953900496454088, guid: a932798c39005314db8f988e008e3bb9, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2085461117689192211, guid: a932798c39005314db8f988e008e3bb9, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -423,13 +427,17 @@ PrefabInstance:
       propertyPath: obstaclePos_End_1.y
       value: 2.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5525921563049892027, guid: a932798c39005314db8f988e008e3bb9, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 8649558270455854118, guid: a932798c39005314db8f988e008e3bb9, type: 3}
       propertyPath: m_Name
       value: ObstaclePuzzle_BlockingRoadMove_OneGate
       objectReference: {fileID: 0}
     - target: {fileID: 8649558270455854118, guid: a932798c39005314db8f988e008e3bb9, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a932798c39005314db8f988e008e3bb9, type: 3}

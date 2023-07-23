@@ -122,12 +122,14 @@ public class TheGameManager : MonoBehaviour
     }
 
     public void FinishGame(){
-        state = gameState.Finish;
+        
         if(environment != gameEnvironment.windy){ // intinya kalo bukan last scene
             fadeBG.ShowUINextScene();
+            state = gameState.Finish;
         }
         else{
-            Debug.Log("You win!!");
+            state = gameState.cinematic;
+            Debug.Log("win");
         }
     }
 

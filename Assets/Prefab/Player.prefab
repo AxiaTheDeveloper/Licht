@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5868162036435683712}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.4, y: 0.3, z: 0}
+  m_LocalPosition: {x: -0.4, y: 0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -57,7 +57,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5868162036594157081}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -162,7 +162,7 @@ Transform:
   m_GameObject: {fileID: 5868162036869831614}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: -1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5868162037999236810}
@@ -374,8 +374,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5868162037999236811}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.92, y: -0.8, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.0017783137, w: 0.99999845}
+  m_LocalPosition: {x: 0.92, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -450,8 +450,8 @@ MonoBehaviour:
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 12
+  m_PointLightInnerRadius: 10.92
+  m_PointLightOuterRadius: 11.383987
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -516,8 +516,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.072906494, y: -0.2985686}
-  m_Size: {x: 0.854187, y: 1.4099324}
+  m_Offset: {x: -0.020251751, y: 0}
+  m_Size: {x: 0.8136835, y: 1.4}
   m_Direction: 0
 --- !u!50 &5868162038120987932
 Rigidbody2D:
@@ -570,7 +570,7 @@ MonoBehaviour:
   isOnGround: 0
   wasOnJump: 0
   coyoteTime: 0.1
-  slopeCheckDistanceNormal: 1.38
+  slopeCheckDistanceNormal: 2
   slopeCheckDistanceJump: 0.2
   layerGround:
     serializedVersion: 2
@@ -598,10 +598,10 @@ MonoBehaviour:
   lightFireStartSize: 12
   dyingTime_IdleNormal: 0.01
   dyingTime_MoveNormal: 0.1
-  dyingTime_IdleWindy: 0.5
-  dyingTime_MoveWindy: 1
+  dyingTime_IdleWindy: 0.2
+  dyingTime_MoveWindy: 0.3
   colliderLight: {fileID: 5868162036869831608}
-  LightSizeDifferenceWithCollider: 3
+  LightSizeDifferenceWithCollider: 0.45
 --- !u!114 &5868162038120987929
 MonoBehaviour:
   m_ObjectHideFlags: 0
