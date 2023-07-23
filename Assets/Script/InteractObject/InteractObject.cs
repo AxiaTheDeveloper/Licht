@@ -33,6 +33,7 @@ public class KeyGate
 public class InteractObject : MonoBehaviour
 {
     private TheGameManager gameManager;
+    private SFXManager sFXManager;
     [SerializeField]private GameObject popUp;
     [SerializeField]private bool isInRange;
     [SerializeField]private bool canInteractManyTimes;
@@ -84,22 +85,36 @@ public class InteractObject : MonoBehaviour
         if(interactObjectType == InteracTObjectType.Lever)
         {
             LeverClass = new Lever();
+            if(lever == null){
+                lever = GetComponent<Interact_Lever>();
+            }
         }
         else if(interactObjectType == InteracTObjectType.Beacon)
         {
             BeaconClass = new Beacon();
+            if(beacon == null){
+                beacon = GetComponent<Interact_Beacon>();
+            }
         }
         else if(interactObjectType == InteracTObjectType.LightSource)
         {
             LightSourceClass = new LightSource();
+            if(lightSource == null){
+                lightSource = GetComponent<Interact_LightSource>();
+            }
         }
         else if(interactObjectType == InteracTObjectType.KeyGate)
         {
             KeyGateClass = new KeyGate();
+            if(keyGate == null){
+                keyGate = GetComponent<Interact_KeyGate>();
+            }
         }
     }
     private void Start() {
         gameManager = TheGameManager.Instance;
+        sFXManager = SFXManager.Instance;
+
         popUp.gameObject.SetActive(false);
         isObstacleMoving = false;
     }
@@ -129,12 +144,17 @@ public class InteractObject : MonoBehaviour
         alreadyInteract = true;
         if(interactObjectType == InteracTObjectType.Lever)
         {
+
             LeverClass.Interact(lever);
+            sFXManager.PlaySFX_UseLever();
+            
+            
         }
         else if(interactObjectType == InteracTObjectType.Beacon)
         {
             if(!beacon.IsLitUp()){
                 BeaconClass.Interact(beacon, playerLight);
+                sFXManager.PlaySFX_LightBeacon();
             }
             if(beacon.IsLitUp()){
                 popUp.gameObject.SetActive(false);
@@ -144,6 +164,7 @@ public class InteractObject : MonoBehaviour
         else if(interactObjectType == InteracTObjectType.LightSource)
         {
             LightSourceClass.Interact(lightSource, playerLight);
+            sFXManager.PlaySFX_ChangeLightSource();
         }
     }
 
@@ -156,6 +177,7 @@ public class InteractObject : MonoBehaviour
             if(interactObjectType == InteracTObjectType.KeyGate){
                 PlayerInteract playerInteract = other.GetComponentInParent<PlayerInteract>();
                 if(gameManager.IsIngame() && !keyGate.GetHasInteract() && !playerInteract.GetHasKey()){
+                    sFXManager.PlaySFX_GetKey();
                     playerInteract.AddKey(keyGate);
                     KeyGateClass.Interact(keyGate, playerInteract);
                 }

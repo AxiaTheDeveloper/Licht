@@ -108,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playerSpawner != null)
         {
-            Debug.Log("Run");
+            // Debug.Log("Run");
             transform.position = playerSpawner.transform.position;
         }
     }
@@ -248,6 +248,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             playerRb.velocity = new Vector2(playerRb.velocity.x, 0);
+            sfxManager.PlaySFX_PlayerJump();
             playerRb.AddForce(Vector2.up * verticalForce, ForceMode2D.Impulse);
 
 
@@ -378,16 +379,16 @@ public class PlayerMovement : MonoBehaviour
             isOnSlope = true;
             wasOnJump = false;
             slopeSideAngle = Vector2.Angle(hitObjectFront.normal, Vector2.up);
-            Debug.DrawRay(hitObjectFront.point, hitObjectFront.normal, Color.red);
-            Debug.Log(hitObjectFront.transform + "object front");
+            // Debug.DrawRay(hitObjectFront.point, hitObjectFront.normal, Color.red);
+            // Debug.Log(hitObjectFront.transform + "object front");
         }
         else if(hitObjectBack)
         {
             isOnSlope = true;
             wasOnJump = false;
             slopeSideAngle = Vector2.Angle(hitObjectBack.normal, Vector2.up);
-            Debug.DrawRay(hitObjectBack.point, hitObjectBack.normal, Color.blue);
-            Debug.Log(hitObjectBack.transform + "object beck");
+            // Debug.DrawRay(hitObjectBack.point, hitObjectBack.normal, Color.blue);
+            // Debug.Log(hitObjectBack.transform + "object beck");
         }
         else
         {
@@ -415,15 +416,15 @@ public class PlayerMovement : MonoBehaviour
                 
                 }
                 wasOnJump = false;
-                Debug.Log (slopeDownAngle + " angelnya" + slopeDownAngleLast);
+                // Debug.Log (slopeDownAngle + " angelnya" + slopeDownAngleLast);
             }
             
             slopeDownAngleLast = slopeDownAngle;
 
             
 
-            Debug.DrawRay(hitObject.point, hitObject.normal, Color.green);
-            Debug.DrawRay(hitObject.point, slopeNormalPerpendicular, Color.blue);
+            // Debug.DrawRay(hitObject.point, hitObject.normal, Color.green);
+            // Debug.DrawRay(hitObject.point, slopeNormalPerpendicular, Color.blue);
         }
     }
     private void CheckEdgeCamera()
