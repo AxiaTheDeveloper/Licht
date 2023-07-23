@@ -8,6 +8,7 @@ public class SFXManager : MonoBehaviour
     private float volume;
     private const string PLAYER_PREF_SFX_VOLUME = "SFX_Volume";
     public static SFXManager Instance {get; private set;}
+    private float fadeDuration = 0.5f;
     private void Awake() {
         Instance = this;
     }
@@ -76,13 +77,39 @@ public class SFXManager : MonoBehaviour
     }
 
     public void PlaySFX_WindSFX(){ //ntr pas on player enter collider aja idk
+        StopCoroutine(StopSFXWind_Courotine());
+        StartCoroutine(PlaySFXWind_Courotine());
+        
+    }
+    private IEnumerator PlaySFXWind_Courotine(){
+        float elapsedTime = 0f;
+        float fadeVolume = 0;
+        windSFX.volume = 0f;
+
         windSFX.Play();
+        while(elapsedTime < fadeDuration){
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / fadeDuration);
+            windSFX.volume = Mathf.Lerp(fadeVolume, volume, t);
+            Debug.Log(windSFX.volume);
+            yield return null;
+        }
     }
     public void StopSFX_WindSFX(){
+        StopCoroutine(PlaySFXWind_Courotine());
         StartCoroutine(StopSFXWind_Courotine());
     }
     private IEnumerator StopSFXWind_Courotine(){
-        yield return new WaitForSeconds(0.05f);
+        float elapsedTime = 0f;
+        float fadeVolume = volume;
+
+        
+        while(elapsedTime < fadeDuration){
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / fadeDuration);
+            windSFX.volume = Mathf.Lerp(fadeVolume, 0, t);
+            yield return null;
+        }
         windSFX.Stop();
     }
     public bool isPlayedSFX_WindSFX(){

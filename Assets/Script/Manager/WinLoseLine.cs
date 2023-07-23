@@ -17,7 +17,9 @@ public class WinLoseLine : MonoBehaviour
                 gameManager.FinishGame();
             }
             else{
+                other.gameObject.GetComponent<PlayerMovement>().PlayDeathAnimation();
                 gameManager.DeadState();
+                
             }
         }
     }
@@ -28,6 +30,7 @@ public class WinLoseLine : MonoBehaviour
                 gameManager.FinishGame();
             }
             else{
+                other.gameObject.GetComponent<PlayerMovement>().PlayDeathAnimation();
                 gameManager.DeadState();
             }
         }

@@ -8,7 +8,7 @@ public class TheGameManager : MonoBehaviour
 {
     public static TheGameManager Instance{get; private set;}
     public enum gameState{
-        cinematic, inGame, Pause, Finish, Dead
+        cinematic, inGame, Pause, Finish, Dead, Credit
     }
     [SerializeField]private gameState state;
     
@@ -28,6 +28,7 @@ public class TheGameManager : MonoBehaviour
     [SerializeField]private float ExitCounterMax;
     private float exitCounter;
     private bool isInputPauseInGame;
+    [SerializeField]private CreditUI credit;
 
     private void Awake() {
         Instance = this;
@@ -129,8 +130,11 @@ public class TheGameManager : MonoBehaviour
         }
         else{
             state = gameState.cinematic;
-            Debug.Log("win");
+            credit.ShowUI();
         }
+    }
+    public void ChangeToCredit(){
+        state = gameState.Credit;
     }
 
     public void DeadState(){

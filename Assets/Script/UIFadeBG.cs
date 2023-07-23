@@ -26,13 +26,13 @@ public class UIFadeBG : MonoBehaviour
             ()=> ChooseNextScene()
         );
     }
-    public void ShowUIRestart(){
+    public void ShowUIRestart(TimerPlayer timer){
         LeanTween.alpha(fadeBG, 1f, 2f).setOnComplete(
-            ()=> Restart() // ini ganti ke nama first scene entar
+            ()=> Restart(timer) // ini ganti ke nama first scene entar
         );
     }
-    private void Restart(){
-        
+    private void Restart(TimerPlayer timer){
+        timer.RestartTimer();
         SceneManager.LoadScene("Level1");
     }
 
