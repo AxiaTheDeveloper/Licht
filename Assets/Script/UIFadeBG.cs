@@ -16,7 +16,7 @@ public class UIFadeBG : MonoBehaviour
     }
     public void ShowUIDead(){
         LeanTween.alpha(fadeBG, 1f, 2f).setOnComplete(
-            ()=> SceneManager.LoadScene("windy 1") // ini ganti ke nama first scene entar
+            ()=> SceneManager.LoadScene("Level1") // ini ganti ke nama first scene entar
         );
     }
 
@@ -27,8 +27,8 @@ public class UIFadeBG : MonoBehaviour
     }
     private void ChooseNextScene(){
         TheGameManager gameManager = TheGameManager.Instance;
-        if(gameManager.GetEnvironment() == TheGameManager.gameEnvironment.normal){
-            SceneManager.LoadScene("windy");
+        if(SceneManager.GetActiveScene().name == "Level1"){
+            SceneManager.LoadScene("Level2");
         }
     }
     public void ShowUIExit(){

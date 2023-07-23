@@ -216,6 +216,7 @@ public class ObstaclePuzzle : MonoBehaviour
             {
                 if (gateOpenType == GateOpenType.Lever){
                     if(isAnswerRight){
+                        PlayVisualEffect();
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         atStart = !atStart;
                         sfxManager.PlaySFX_OpenGate();
@@ -250,6 +251,7 @@ public class ObstaclePuzzle : MonoBehaviour
                 }
                 else{
                     atStart = !atStart;
+                    PlayVisualEffect();
                     sfxManager.PlaySFX_OpenGate();
                     gameObject.GetComponent<Collider2D>().enabled = false;
                     // Debug.Log("solved");
@@ -276,7 +278,7 @@ public class ObstaclePuzzle : MonoBehaviour
             }
             else
             {
-                PlayVisualEffect();
+                
                 if (gateOpenType == GateOpenType.Lever){
                     if(!isAnswerRight){
                         atStart = !atStart;

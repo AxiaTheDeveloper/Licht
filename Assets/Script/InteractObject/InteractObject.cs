@@ -85,18 +85,30 @@ public class InteractObject : MonoBehaviour
         if(interactObjectType == InteracTObjectType.Lever)
         {
             LeverClass = new Lever();
+            if(lever == null){
+                lever = GetComponent<Interact_Lever>();
+            }
         }
         else if(interactObjectType == InteracTObjectType.Beacon)
         {
             BeaconClass = new Beacon();
+            if(beacon == null){
+                beacon = GetComponent<Interact_Beacon>();
+            }
         }
         else if(interactObjectType == InteracTObjectType.LightSource)
         {
             LightSourceClass = new LightSource();
+            if(lightSource == null){
+                lightSource = GetComponent<Interact_LightSource>();
+            }
         }
         else if(interactObjectType == InteracTObjectType.KeyGate)
         {
             KeyGateClass = new KeyGate();
+            if(keyGate == null){
+                keyGate = GetComponent<Interact_KeyGate>();
+            }
         }
     }
     private void Start() {
@@ -132,8 +144,11 @@ public class InteractObject : MonoBehaviour
         alreadyInteract = true;
         if(interactObjectType == InteracTObjectType.Lever)
         {
+
             LeverClass.Interact(lever);
             sFXManager.PlaySFX_UseLever();
+            
+            
         }
         else if(interactObjectType == InteracTObjectType.Beacon)
         {
