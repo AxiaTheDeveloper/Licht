@@ -6,6 +6,7 @@ using UnityEngine;
 public class ObstaclePuzzle : MonoBehaviour
 {
     private TheGameManager gameManager;
+    private SFXManager sfxManager;
     public enum GateOpenType{
         Lever, Beacon, Key
     }
@@ -125,6 +126,7 @@ public class ObstaclePuzzle : MonoBehaviour
         }
 
         gameManager = TheGameManager.Instance;
+        sfxManager = SFXManager.Instance;
     }
 
     private void lever_OnUsedLever(object sender, EventArgs e)
@@ -202,6 +204,7 @@ public class ObstaclePuzzle : MonoBehaviour
                     if(isAnswerRight){
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         atStart = !atStart;
+                        sfxManager.PlaySFX_OpenGate();
                         foreach(InteractObject interactObject in interactObjects){
                             if(interactObject.GetCanInteractManyTimes()){
                                 interactObject.changeIsMoving(true);
@@ -233,6 +236,7 @@ public class ObstaclePuzzle : MonoBehaviour
                 }
                 else{
                     atStart = !atStart;
+                    sfxManager.PlaySFX_OpenGate();
                     gameObject.GetComponent<Collider2D>().enabled = false;
                     // Debug.Log("solved");
                     if(isTwoGate){
@@ -261,6 +265,7 @@ public class ObstaclePuzzle : MonoBehaviour
                 if(gateOpenType == GateOpenType.Lever){
                     if(!isAnswerRight){
                         atStart = !atStart;
+                        sfxManager.PlaySFX_CloseGate();
                         gameObject.GetComponent<Collider2D>().enabled = true;
                         foreach(InteractObject interactObject in interactObjects){
                             if(interactObject.GetCanInteractManyTimes()){
@@ -285,6 +290,7 @@ public class ObstaclePuzzle : MonoBehaviour
                 }
                 else{
                     atStart = !atStart;
+                    sfxManager.PlaySFX_CloseGate();
                     gameObject.GetComponent<Collider2D>().enabled = true;
                     if(isTwoGate){
                         Gate1.GetComponent<Collider2D>().enabled = true;
@@ -360,6 +366,7 @@ public class ObstaclePuzzle : MonoBehaviour
         else if(puzzleType == PuzzleType.BlockingRoadGone)
         {
             obstacleCollider.enabled = false;
+            sfxManager.PlaySFX_OpenDoor();
             //jalankan animasi or ya ini fade out~
             LeanTween.color(spriteRenderer.gameObject, new Color(1f, 1f, 1f, 0f), colorChange_Speed).setEase(LeanTweenType.easeOutQuad);
 

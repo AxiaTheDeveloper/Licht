@@ -51,12 +51,9 @@ public class PlayerLight : MonoBehaviour
         gameManager = TheGameManager.Instance;
 
         restartFireSize(lightFireStartSize);
-        if(gameManager.GetEnvironment() == TheGameManager.gameEnvironment.normal){
-            ChangeEnvironmentMode(Environment.normal);
-        }
-        else if(gameManager.GetEnvironment() == TheGameManager.gameEnvironment.windy){
-            ChangeEnvironmentMode(Environment.windy);
-        }
+
+        ChangeEnvironmentMode(Environment.normal);
+
 
         
     }

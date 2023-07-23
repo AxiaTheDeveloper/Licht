@@ -85066,7 +85066,7 @@ GameObject:
   m_Component:
   - component: {fileID: 978125084}
   - component: {fileID: 978125085}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Gate2 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85175,6 +85175,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 1185127994, guid: 5e62f42d4dca9c947a5df7e8ac70773a, type: 3}
+    - target: {fileID: 4269621358986600761, guid: cb46ae0bb8733aa46a1d1a3cf4893a93, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4484875127653689362, guid: cb46ae0bb8733aa46a1d1a3cf4893a93, type: 3}
       propertyPath: m_Color.b
       value: 0.50980395
@@ -85206,6 +85210,14 @@ PrefabInstance:
     - target: {fileID: 5481984915362399553, guid: cb46ae0bb8733aa46a1d1a3cf4893a93, type: 3}
       propertyPath: m_Color.b
       value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 5730385722178206138, guid: cb46ae0bb8733aa46a1d1a3cf4893a93, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7207804988310009300, guid: cb46ae0bb8733aa46a1d1a3cf4893a93, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7710639429011072657, guid: cb46ae0bb8733aa46a1d1a3cf4893a93, type: 3}
       propertyPath: m_RootOrder
@@ -85250,6 +85262,14 @@ PrefabInstance:
     - target: {fileID: 7710639429011072657, guid: cb46ae0bb8733aa46a1d1a3cf4893a93, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7980581501590747210, guid: cb46ae0bb8733aa46a1d1a3cf4893a93, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8198282051430777628, guid: cb46ae0bb8733aa46a1d1a3cf4893a93, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8265283083543428844, guid: cb46ae0bb8733aa46a1d1a3cf4893a93, type: 3}
       propertyPath: m_Color.b
@@ -134365,7 +134385,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1332225431}
   - component: {fileID: 1332225432}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Visual_Penjaga_Bawah (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134572,7 +134592,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.02
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 0000000025facf2231ee0f94bdff384105e0eb3cc7800202
@@ -151641,7 +151661,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5868162037999236405, guid: 4f2951b9901443e41a3c6b3a6d508b98, type: 3}
       propertyPath: m_Intensity
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5868162038120987920, guid: 4f2951b9901443e41a3c6b3a6d508b98, type: 3}
       propertyPath: m_Name
@@ -151661,11 +151681,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5868162038120987933, guid: 4f2951b9901443e41a3c6b3a6d508b98, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 48
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 5868162038120987933, guid: 4f2951b9901443e41a3c6b3a6d508b98, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 14.99
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5868162038120987933, guid: 4f2951b9901443e41a3c6b3a6d508b98, type: 3}
       propertyPath: m_LocalPosition.z
@@ -151701,7 +151721,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5868162038120987934, guid: 4f2951b9901443e41a3c6b3a6d508b98, type: 3}
       propertyPath: lightFireStartSize
-      value: 12
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5868162038120987934, guid: 4f2951b9901443e41a3c6b3a6d508b98, type: 3}
       propertyPath: LightSizeDifferenceWithCollider

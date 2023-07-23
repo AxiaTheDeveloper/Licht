@@ -116,6 +116,7 @@ public class TheGameManager : MonoBehaviour
 
     public void DeadState(){
         state = gameState.Dead;
+        SFXManager.Instance.PlaySFX_PlayerDead();
         fadeBG.ShowUIDead();
     }
 
