@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -40,6 +41,9 @@ public class PlayerLight : MonoBehaviour
 
     [SerializeField]private float LightSizeDifferenceWithCollider;
 
+    private float tempLightFireSize;
+
+
     private void Awake() {
         Instance = this;
         playerMovement = GetComponent<PlayerMovement>();
@@ -48,18 +52,12 @@ public class PlayerLight : MonoBehaviour
     }
 
     private void Start() {
+        tempLightFireSize = lightFireStartSize;
         gameManager = TheGameManager.Instance;
 
         restartFireSize(lightFireStartSize);
-        if(gameManager.GetEnvironment() == TheGameManager.gameEnvironment.normal){
-            ChangeEnvironmentMode(Environment.normal);
-        }
-        else if(gameManager.GetEnvironment() == TheGameManager.gameEnvironment.windy){
-            ChangeEnvironmentMode(Environment.windy);
-        }
-
-        
     }
+
 
     public float GetFireSize(){
         return lightFireSize;
@@ -81,6 +79,8 @@ public class PlayerLight : MonoBehaviour
 
     private void changeFireSizeRadius(){
         lightFire.pointLightOuterRadius = lightFireSize;
+        if(lightFire.intensity > 0.5f) lightFire.intensity = lightFireSize * 1f / tempLightFireSize;
+        if (lightFire.pointLightInnerRadius > 0) lightFire.pointLightInnerRadius = lightFireSize - 2;
     }
 
     public void changeLightColliderSize(){
@@ -126,7 +126,15 @@ public class PlayerLight : MonoBehaviour
     }
 
     private void Update() {
-        if(gameManager.IsIngame()){
+        if (gameManager.GetEnvironment() == TheGameManager.gameEnvironment.normal)
+        {
+            ChangeEnvironmentMode(Environment.normal);
+        }
+        else if (gameManager.GetEnvironment() == TheGameManager.gameEnvironment.windy)
+        {
+            ChangeEnvironmentMode(Environment.windy);
+        }
+        if (gameManager.IsIngame()){
             //tny ini jdnya mo pastiinnya gmn mo intinya berubah posisi trmasuk gerak ato tidak etc etc
             float dyingTimeChange;
             if(playerPosNow.position == playerPositionLast)

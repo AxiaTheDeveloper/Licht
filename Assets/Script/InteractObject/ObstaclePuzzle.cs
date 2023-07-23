@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class ObstaclePuzzle : MonoBehaviour
@@ -56,12 +57,25 @@ public class ObstaclePuzzle : MonoBehaviour
     [SerializeField]private float colorChange_Speed;
     [Header("Puzzle - BlockingRoadGone - Gausa dimasukkin - Gapapa")]
     [SerializeField]private Collider2D obstacleCollider; // dipake missing dan blocking road gone
-    //mungkin playeranimator di sini kalo perlu
+                                                         //mungkin playeranimator di sini kalo perlu
 
 
     //lever bisa solve semua, tp yg trakhir isPermanence hrs dinyalain
     // yg lain jg bs solve semua 
-    
+
+    [Header("Visual Effect")]
+    [SerializeField] private float shakeTime;
+    [SerializeField] private GameObject dustParticleGameObject;
+    [SerializeField] private GameObject cmCamGameObject;
+    [SerializeField] private CinemachineVirtualCamera cmCam;
+
+    //Just in case kalo g kepanggil setial reload scene
+    private void OnEnable()
+    {
+        cmCamGameObject = GameObject.Find("CM vcam1");
+        cmCam = cmCamGameObject.GetComponent<CinemachineVirtualCamera>();
+    }
+
     private void Awake() {
         if(gateOpenType == GateOpenType.Lever){
             
@@ -193,12 +207,12 @@ public class ObstaclePuzzle : MonoBehaviour
     }
 
     private void SolvedPuzzle(){
-        
-        if(puzzleType == PuzzleType.BlockingRoadMove)
+
+        if (puzzleType == PuzzleType.BlockingRoadMove)
         {   
             if(atStart)
             {
-                if(gateOpenType == GateOpenType.Lever){
+                if (gateOpenType == GateOpenType.Lever){
                     if(isAnswerRight){
                         gameObject.GetComponent<Collider2D>().enabled = false;
                         atStart = !atStart;
@@ -258,7 +272,8 @@ public class ObstaclePuzzle : MonoBehaviour
             }
             else
             {
-                if(gateOpenType == GateOpenType.Lever){
+                PlayVisualEffect();
+                if (gateOpenType == GateOpenType.Lever){
                     if(!isAnswerRight){
                         atStart = !atStart;
                         gameObject.GetComponent<Collider2D>().enabled = true;
@@ -365,7 +380,28 @@ public class ObstaclePuzzle : MonoBehaviour
 
         }
     }
+    void PlayVisualEffect() 
+    {
+        CinemachineBasicMultiChannelPerlin cinemachinePerlinChannel = cmCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        cinemachinePerlinChannel.m_AmplitudeGain = 1f;
+        StartCoroutine(ShakeCamera(2f, cinemachinePerlinChannel));
+        if(dustParticleGameObject != null)
+        {
+            dustParticleGameObject.transform.position = transform.position;
+            dustParticleGameObject.GetComponent<ParticleSystem>().Play();
+        }
 
+    }
+
+    private IEnumerator ShakeCamera(float time, CinemachineBasicMultiChannelPerlin cinemachinePerlinChannel)
+    {
+        Debug.Log("Start Shake");
+        yield return new WaitForSeconds(time);
+        cinemachinePerlinChannel.m_AmplitudeGain = 0f;
+        Debug.Log("Stop Shake");
+        yield return null; 
+        
+    }
 
 
 }

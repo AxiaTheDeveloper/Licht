@@ -12,16 +12,16 @@ public class UIFadeBG : MonoBehaviour
     }
 
     private void HideUI(){
-        LeanTween.alpha(fadeBG, 0f, 0.8f);
+        LeanTween.alpha(fadeBG, 0f, 2f);
     }
     public void ShowUIDead(){
-        LeanTween.alpha(fadeBG, 1f, 0.3f).setOnComplete(
-            ()=> SceneManager.LoadScene("normal") // ini ganti ke nama first scene entar
+        LeanTween.alpha(fadeBG, 1f, 2f).setOnComplete(
+            ()=> SceneManager.LoadScene("windy 1") // ini ganti ke nama first scene entar
         );
     }
 
     public void ShowUINextScene(){
-        LeanTween.alpha(fadeBG, 1f, 0.5f).setOnComplete(
+        LeanTween.alpha(fadeBG, 1f, 2f).setOnComplete(
             ()=> ChooseNextScene()
         );
     }

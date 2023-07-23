@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ColliderKecil
   - ColliderLampu
+  - WindyArea
   layers:
   - Default
   - TransparentFX
@@ -13,7 +14,7 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
+  - WindyArea
   - Ground
   - 
   - 

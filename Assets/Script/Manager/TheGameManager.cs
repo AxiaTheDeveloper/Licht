@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 
@@ -42,6 +43,22 @@ public class TheGameManager : MonoBehaviour
     }
     public gameEnvironment GetEnvironment(){
         return environment;
+    }
+
+    public void SetEnvironment(string weatherCondition)
+    {
+        if(weatherCondition != null)
+        {
+            if(weatherCondition == "normal")
+            {
+                environment = gameEnvironment.normal;
+            }
+            else if(weatherCondition == "windy")
+            {
+                environment = gameEnvironment.windy;
+            }
+        }
+        
     }
 
     private void Update() {

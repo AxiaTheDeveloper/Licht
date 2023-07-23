@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
     private CapsuleCollider2D capsuleCollider;
     private MoveCamera moveCamera;
     private DustParticleSpawner dustPSpawner;
+    [Tooltip("Optional, if there are any, it will spawn here")]
+    [SerializeField] private GameObject playerSpawner;
 
 
     [Header("== Variables ==")]
@@ -90,6 +92,8 @@ public class PlayerMovement : MonoBehaviour
         SetGravityScale(defaultGravScale);
         lastOnGroundTime = 0;
         lastPressedJumpTime = 0;
+
+
     }
 
     private void Start() {
@@ -97,6 +101,16 @@ public class PlayerMovement : MonoBehaviour
         int lastChild = transform.childCount - 1;
         dustPSpawner = transform.GetChild(lastChild).GetComponent<DustParticleSpawner>();
         sfxManager = SFXManager.Instance;
+        playerSpawner = GameObject.Find("Player Spawn");
+    }
+
+    private void OnEnable()
+    {
+        if (playerSpawner != null)
+        {
+            Debug.Log("Run");
+            transform.position = playerSpawner.transform.position;
+        }
     }
 
     private void Update()
@@ -129,7 +143,7 @@ public class PlayerMovement : MonoBehaviour
         }
         PlayerJump();
         PlayerRotation();
-        
+        CheckWindyEnvironment();
     }
 
     void FixedUpdate()
@@ -464,5 +478,14 @@ public class PlayerMovement : MonoBehaviour
             dustIsRunning = false;
         }
     }
+
+    private void CheckWindyEnvironment()
+    {
+        LayerMask windyArea = LayerMask.GetMask("WindyArea");
+        if (Physics2D.OverlapBox(transform.position, new Vector2(1f, 1f), 0f, windyArea)) gameManager.SetEnvironment("windy");
+        else gameManager.SetEnvironment("normal");
+            
+    }
+
     #endregion
 }
