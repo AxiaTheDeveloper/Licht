@@ -10,8 +10,7 @@ public class Interact_Lever : MonoBehaviour
     [SerializeField]private Sprite leverOnSprite, leverOffSprite;
     [SerializeField]private SpriteRenderer spriteRenderer;
     public event EventHandler OnUsedLever;
-    private void Awake() {
-        leverOn = false;
+    private void Awake(){
         spriteRenderer = gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>();
     }
     public void UseLever(){

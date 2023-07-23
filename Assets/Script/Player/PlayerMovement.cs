@@ -248,6 +248,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             playerRb.velocity = new Vector2(playerRb.velocity.x, 0);
+            sfxManager.PlaySFX_PlayerJump();
             playerRb.AddForce(Vector2.up * verticalForce, ForceMode2D.Impulse);
 
 

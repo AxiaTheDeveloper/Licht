@@ -33,6 +33,7 @@ public class KeyGate
 public class InteractObject : MonoBehaviour
 {
     private TheGameManager gameManager;
+    private SFXManager sFXManager;
     [SerializeField]private GameObject popUp;
     [SerializeField]private bool isInRange;
     [SerializeField]private bool canInteractManyTimes;
@@ -100,6 +101,8 @@ public class InteractObject : MonoBehaviour
     }
     private void Start() {
         gameManager = TheGameManager.Instance;
+        sFXManager = SFXManager.Instance;
+
         popUp.gameObject.SetActive(false);
         isObstacleMoving = false;
     }
@@ -130,11 +133,13 @@ public class InteractObject : MonoBehaviour
         if(interactObjectType == InteracTObjectType.Lever)
         {
             LeverClass.Interact(lever);
+            sFXManager.PlaySFX_UseLever();
         }
         else if(interactObjectType == InteracTObjectType.Beacon)
         {
             if(!beacon.IsLitUp()){
                 BeaconClass.Interact(beacon, playerLight);
+                sFXManager.PlaySFX_LightBeacon();
             }
             if(beacon.IsLitUp()){
                 popUp.gameObject.SetActive(false);
@@ -144,6 +149,7 @@ public class InteractObject : MonoBehaviour
         else if(interactObjectType == InteracTObjectType.LightSource)
         {
             LightSourceClass.Interact(lightSource, playerLight);
+            sFXManager.PlaySFX_ChangeLightSource();
         }
     }
 
@@ -156,6 +162,7 @@ public class InteractObject : MonoBehaviour
             if(interactObjectType == InteracTObjectType.KeyGate){
                 PlayerInteract playerInteract = other.GetComponentInParent<PlayerInteract>();
                 if(gameManager.IsIngame() && !keyGate.GetHasInteract() && !playerInteract.GetHasKey()){
+                    sFXManager.PlaySFX_GetKey();
                     playerInteract.AddKey(keyGate);
                     KeyGateClass.Interact(keyGate, playerInteract);
                 }
